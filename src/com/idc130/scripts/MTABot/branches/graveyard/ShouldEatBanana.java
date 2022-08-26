@@ -1,7 +1,7 @@
-package com.idc130.scripts.MTABot.branches;
+package com.idc130.scripts.MTABot.branches.graveyard;
 
-import com.idc130.scripts.MTABot.leaves.DepositBananas;
-import com.idc130.scripts.MTABot.leaves.EatBananas;
+import com.idc130.scripts.MTABot.leaves.graveyard.DepositBananas;
+import com.idc130.scripts.MTABot.leaves.graveyard.EatBananas;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Health;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.script.framework.tree.BranchTask;

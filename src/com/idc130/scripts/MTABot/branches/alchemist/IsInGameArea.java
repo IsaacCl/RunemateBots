@@ -1,22 +1,21 @@
-package com.idc130.scripts.MTABot.branches;
+package com.idc130.scripts.MTABot.branches.alchemist;
 
-import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
-public class HasBananas extends BranchTask {
+public class IsInGameArea extends BranchTask {
     @Override
     public boolean validate() {
-        return Inventory.contains("Banana");
+        return false;
     }
 
     @Override
     public TreeTask successTask() {
-        return new ShouldEatBanana();
+        return null;
     }
 
     @Override
     public TreeTask failureTask() {
-        return new HasBones();
+        return null;
     }
 }

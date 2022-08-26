@@ -1,10 +1,8 @@
-package com.idc130.scripts.MTABot.branches;
+package com.idc130.scripts.MTABot.branches.graveyard;
 
-import com.idc130.scripts.MTABot.leaves.CollectBones;
-import com.idc130.scripts.MTABot.leaves.WalkToBonesArea;
+import com.idc130.scripts.MTABot.leaves.graveyard.WalkToBonesArea;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
-import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;

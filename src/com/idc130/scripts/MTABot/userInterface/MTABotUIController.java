@@ -15,6 +15,9 @@ public class MTABotUIController implements Initializable {
     private CheckBox checkDoCreatureGraveyard;
 
     @FXML
+    private CheckBox checkShouldDoAlchemist;
+
+    @FXML
     private ImageView imageView;
 
     @FXML
@@ -23,6 +26,8 @@ public class MTABotUIController implements Initializable {
         checkDoCreatureGraveyard.setOnAction(event ->
         {
             MTABot.shouldDoCreatureGraveyard = checkDoCreatureGraveyard.isSelected();
+
+            MTABot.shouldDoAlchemist = checkShouldDoAlchemist.isSelected();
 
             System.out.println("set shouldDoCreatureGraveyard to " + Boolean.toString(MTABot.shouldDoCreatureGraveyard).toUpperCase(Locale.ROOT));
         });

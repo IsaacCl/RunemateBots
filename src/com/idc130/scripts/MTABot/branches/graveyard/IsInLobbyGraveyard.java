@@ -1,11 +1,11 @@
-package com.idc130.scripts.MTABot.branches;
+package com.idc130.scripts.MTABot.branches.graveyard;
 
-import com.idc130.scripts.MTABot.leaves.EnterCreatureGraveyard;
+import com.idc130.scripts.MTABot.leaves.graveyard.EnterCreatureGraveyard;
 import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
-public class IsInLobby extends BranchTask {
+public class IsInLobbyGraveyard extends BranchTask {
     @Override
     public boolean validate() {
         var portal = GameObjects.newQuery().names("Graveyard Teleport").results().nearest();

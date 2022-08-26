@@ -1,4 +1,4 @@
-package com.idc130.scripts.MTABot.leaves;
+package com.idc130.scripts.MTABot.leaves.graveyard;
 
 import com.runemate.game.api.osrs.local.hud.interfaces.Magic;
 import com.runemate.game.api.script.framework.tree.LeafTask;
