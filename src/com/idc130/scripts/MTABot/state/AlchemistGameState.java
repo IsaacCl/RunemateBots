@@ -97,6 +97,12 @@ public class AlchemistGameState {
 
     public static int getBestItemLocationIndex()
     {
+        if(!Objects.equals(lastBestItem, getBestItem()))
+        {
+            return itemsList.indexOf(getBestItem());
+        }
+        lastBestItem = getBestItem();
+        if(nextToTry != -1) return nextToTry;
         return (itemsList.indexOf(getBestItem())+order)%coordinates.size();
     }
 
@@ -136,6 +142,8 @@ public class AlchemistGameState {
     private static int order = 0;
     private static int nextToTry = -1;
 
+    private static String lastBestItem = "";
+
     public static void justPickedUp(String item) {
         var player = Players.getLocal();
 
@@ -150,6 +158,7 @@ public class AlchemistGameState {
 
                 if(Objects.equals(item, ""))
                 {
+                    lastBestItem = "";
                     if(nextToTry == -1)
                     {
                         nextToTry = (cupboardIndex+2)%coordinates.size();

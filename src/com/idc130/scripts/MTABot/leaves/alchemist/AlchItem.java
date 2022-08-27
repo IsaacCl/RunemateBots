@@ -13,9 +13,6 @@ public class AlchItem extends LeafTask {
 
         if(Magic.HIGH_LEVEL_ALCHEMY.activate())
         {
-            //TODO: get rid of this crap, one action per cycle
-            Execution.delay(2000,3000);
-
             var itemToAlch = Inventory.getItems(AlchemistGameState.getItemsArray()).first();
 
             if(itemToAlch != null)

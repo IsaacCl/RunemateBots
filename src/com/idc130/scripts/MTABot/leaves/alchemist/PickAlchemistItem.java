@@ -10,13 +10,11 @@ import static com.idc130.scripts.MTABot.state.AlchemistGameState.getBestItemLoca
 public class PickAlchemistItem extends LeafTask {
     @Override
     public void execute() {
-
-        System.out.println("Picking best item");
-
         var bestItemLocation = getBestItemLocation();
-        var bestItemLocationIndex = getBestItemLocationIndex();
 
         var bestItemCupboard = GameObjects.newQuery().names("Cupboard").on(bestItemLocation).results().first();
+
+        System.out.println("Picking best item" + getBestItemLocationIndex() + " at cupboard " + bestItemCupboard +" at location " + bestItemLocation);
 
         if(bestItemCupboard != null)
         {

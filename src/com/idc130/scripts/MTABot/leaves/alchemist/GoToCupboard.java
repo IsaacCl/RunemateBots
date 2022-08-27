@@ -9,12 +9,10 @@ public class GoToCupboard extends LeafTask {
     public void execute() {
         var location = AlchemistGameState.getBestCupboardArea();
 
-        System.out.println("Cupboard area detected:" + location);
-
         final RegionPath path = RegionPath.buildTo(location);
         if(path != null)
         {
-            System.out.println("Walking cupboard");
+            System.out.println("Walking to cupboard " + AlchemistGameState.getBestItemLocationIndex());
             path.step(true);
         }
         else

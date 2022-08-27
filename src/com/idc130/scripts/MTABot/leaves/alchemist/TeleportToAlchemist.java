@@ -9,7 +9,7 @@ public class TeleportToAlchemist extends LeafTask {
         var alchemistsTeleport = GameObjects.newQuery().names("Alchemists Teleport").results().nearest();
         if(alchemistsTeleport != null)
         {
-            System.out.println("Goign to alchemist");
+            System.out.println("Going to alchemist");
             alchemistsTeleport.click();
         }
         else
