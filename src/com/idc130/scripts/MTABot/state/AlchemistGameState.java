@@ -1,14 +1,9 @@
 package com.idc130.scripts.MTABot.state;
 
-import com.runemate.game.api.hybrid.entities.details.Locatable;
-import com.runemate.game.api.hybrid.local.hud.interfaces.InterfaceComponent;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
-import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.region.Players;
-import com.runemate.game.api.script.framework.listeners.events.ItemEvent;
-import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +94,8 @@ public class AlchemistGameState {
     {
         if(!Objects.equals(lastBestItem, getBestItem()))
         {
-            return itemsList.indexOf(getBestItem());
+            System.out.println("Oops everything changed and we're lost");
+            return itemsList.indexOf(lastBestItem);
         }
         lastBestItem = getBestItem();
         if(nextToTry != -1) return nextToTry;
@@ -142,7 +138,7 @@ public class AlchemistGameState {
     private static int order = 0;
     private static int nextToTry = -1;
 
-    private static String lastBestItem = "";
+    private static String lastBestItem = itemsList.get(0);
 
     public static void justPickedUp(String item) {
         var player = Players.getLocal();
@@ -158,18 +154,19 @@ public class AlchemistGameState {
 
                 if(Objects.equals(item, ""))
                 {
-                    lastBestItem = "";
                     if(nextToTry == -1)
                     {
                         nextToTry = (cupboardIndex+2)%coordinates.size();
                         System.out.printf("Because picked up none at cupboard %x, try cupboard %x", cupboardIndex, nextToTry);
+                        System.out.println();
                     }
                     else if(nextToTry == cupboardIndex)
                     {
                         nextToTry = -1;
                         order = getOrderFromLocationAndItemIndices(cupboardIndex, 7);
                         printOrder();
-                        System.out.printf("Because picked up none at cupboard %x, then %s must be at position %x, so going to position %x to get %s", cupboardIndex, itemsList.get(0), order, getBestItemLocationIndex(), getBestItem());
+                        System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
+                        System.out.println();
                     }
                 }
                 else
@@ -177,8 +174,10 @@ public class AlchemistGameState {
                     nextToTry = -1;
                     order = getOrderFromLocationAndItemIndices(cupboardIndex, itemIndex);
                     printOrder();
-                    System.out.printf("Because picked up %s at cupboard %x, then %s must be at position %x, so going to position %x to get %s", item, cupboardIndex, itemsList.get(0), order, getBestItemLocationIndex(), getBestItem());
+                    System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
+                    System.out.println();
                 }
+                lastBestItem = getBestItem();
             }
         }
     }
