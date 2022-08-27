@@ -5,7 +5,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0"
             prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <CheckBox fx:id="checkDoCreatureGraveyard" layoutX="16.0" layoutY="174.0" mnemonicParsing="false"
+    <CheckBox fx:id="checkDoCreatureGraveyard" layoutX="16.0" layoutY="100.0" mnemonicParsing="false"
               text="Do creature graveyard"/>
     <CheckBox fx:id="checkShouldDoAlchemist" layoutX="16.0" layoutY="174.0" mnemonicParsing="false"
               text="Do alchemist"/>

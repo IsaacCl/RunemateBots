@@ -1,9 +1,13 @@
 package com.idc130.scripts.MTABot;
 
 import com.idc130.scripts.MTABot.branches.lobby.ShouldStartBot;
+import com.idc130.scripts.MTABot.state.AlchemistGameState;
 import com.idc130.scripts.MTABot.userInterface.MTABotUIController;
 import com.runemate.game.api.client.embeddable.EmbeddableUI;
+import com.runemate.game.api.hybrid.local.hud.interfaces.Chatbox;
 import com.runemate.game.api.hybrid.util.Resources;
+import com.runemate.game.api.script.framework.listeners.ChatboxListener;
+import com.runemate.game.api.script.framework.listeners.events.MessageEvent;
 import com.runemate.game.api.script.framework.tree.TreeBot;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 import javafx.beans.property.ObjectProperty;
@@ -13,7 +17,7 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class MTABot extends TreeBot implements EmbeddableUI {
+public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
 
     public static boolean shouldDoCreatureGraveyard = false;
     public static boolean shouldDoAlchemist = false;
@@ -23,6 +27,31 @@ public class MTABot extends TreeBot implements EmbeddableUI {
     public MTABot()
     {
         setEmbeddableUI(this);
+    }
+
+    @Override
+    public void onStart(java.lang.String... arguments) {
+        getEventDispatcher().addListener(this);
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+        String message = messageEvent.getMessage();
+        if(messageEvent.getType() == Chatbox.Message.Type.SERVER){
+            if(message.contains("boots")){
+                AlchemistGameState.justPickedUp("Leather boots");
+            }else if(message.contains("kiteshield")){
+                AlchemistGameState.justPickedUp("Adamant kiteshield");
+            }else if(message.contains("helm")){
+                AlchemistGameState.justPickedUp("Adamant med helm");
+            }else if(message.contains("Emerald")){
+                AlchemistGameState.justPickedUp("Emerald");
+            }else if(message.contains("longsword")) {
+                AlchemistGameState.justPickedUp("Rune longsword");
+            }else if(message.contains("empty")) {
+                AlchemistGameState.justPickedUp("");
+            }
+        }
     }
 
     @Override

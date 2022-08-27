@@ -27,9 +27,14 @@ public class MTABotUIController implements Initializable {
         {
             MTABot.shouldDoCreatureGraveyard = checkDoCreatureGraveyard.isSelected();
 
+            System.out.println("set shouldDoCreatureGraveyard to " + Boolean.toString(MTABot.shouldDoCreatureGraveyard).toUpperCase(Locale.ROOT));
+        });
+
+        checkShouldDoAlchemist.setOnAction(event ->
+        {
             MTABot.shouldDoAlchemist = checkShouldDoAlchemist.isSelected();
 
-            System.out.println("set shouldDoCreatureGraveyard to " + Boolean.toString(MTABot.shouldDoCreatureGraveyard).toUpperCase(Locale.ROOT));
+            System.out.println("set shouldDoAlchemist to " + Boolean.toString(MTABot.shouldDoAlchemist).toUpperCase(Locale.ROOT));
         });
     }
 
