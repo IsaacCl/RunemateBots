@@ -17,6 +17,15 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
+
+/*
+Design principles:
+- Maximum of one action per cycle.
+- Some execution delay per cycle for performance reasons.
+- Prefer events for tracking game state over recording ingame events
+- As much logic in tree as possible
+ */
+
 public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
 
     public static boolean shouldDoCreatureGraveyard = false;
@@ -35,7 +44,22 @@ public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
     }
 
     @Override
+    public void onStop() {
+        getEventDispatcher().removeListener(this);
+    }
+
+    private long lastExecutionTime = 0;
+
+    @Override
     public void onMessageReceived(MessageEvent messageEvent) {
+
+        // Because of RuneMate event bug
+        if(System.currentTimeMillis() - lastExecutionTime < 1000)
+        {
+            return;
+        }
+        lastExecutionTime = System.currentTimeMillis();
+
         String message = messageEvent.getMessage();
         if(messageEvent.getType() == Chatbox.Message.Type.SERVER){
             if(message.contains("boots")){

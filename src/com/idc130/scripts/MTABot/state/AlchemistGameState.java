@@ -3,6 +3,7 @@ package com.idc130.scripts.MTABot.state;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
+import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Players;
 
 import java.util.Arrays;
@@ -13,24 +14,21 @@ public class AlchemistGameState {
     public static final List<String> itemsList = Arrays.asList("Leather boots", "Adamant kiteshield", "Adamant med helm", "Emerald", "Rune longsword");
 
     private static final List<Coordinate> coordinates = Arrays.asList( new Coordinate(3360,9632,2),new Coordinate(3360,9636,2),new Coordinate(3360,9640,2),new Coordinate(3360,9644,2),
-            new Coordinate(3369,9644,2),new Coordinate(3369,9640,2), new Coordinate(3369,9636,2), new Coordinate(3369,9630,2));
+            new Coordinate(3369,9644,2),new Coordinate(3369,9640,2), new Coordinate(3369,9636,2), new Coordinate(3369,9632,2));
 
 
     private static final int[] itemInterfaceIds = {12713996, 12713997, 12713998, 12713999, 12714000};
 
-    private static final int pizazzPointsInterfaceId = 12713995;
+//    private static final int pizazzPointsInterfaceId = 12713995;
 
     private static Area getAreaFromCoordinate(Coordinate coordinate)
     {
         if(coordinate.getX() == 3360)
         {
-            return new Area.Rectangular(new Coordinate(coordinate.getX()+1, coordinate.getY()+1, coordinate.getPlane()),
-                    new Coordinate(coordinate.getX()+1, coordinate.getY()-1, coordinate.getPlane()));
+            return new Area.Absolute(new Coordinate(coordinate.getX()+1, coordinate.getY(), coordinate.getPlane()));
         }
-        else
-        {
-            return new Area.Rectangular(new Coordinate(coordinate.getX()-1, coordinate.getY()+1, coordinate.getPlane()),
-                    new Coordinate(coordinate.getX()-1, coordinate.getY()-1, coordinate.getPlane()));
+        else {
+            return new Area.Absolute(new Coordinate(coordinate.getX() - 1, coordinate.getY(), coordinate.getPlane()));
         }
     }
 
@@ -64,23 +62,21 @@ public class AlchemistGameState {
             }
         }
 
-        return -1;
+        return 0;
     }
 
-    public static String getPizzazPoints()
-    {
-        var pointsInterface = Interfaces.newQuery().ids(pizazzPointsInterfaceId).results().first();
-
-        if(pointsInterface!=null) return pointsInterface.getText();
-
-        return "";
-    }
+//    public static String getPizzazPoints()
+//    {
+//        var pointsInterface = Interfaces.newQuery().ids(pizazzPointsInterfaceId).results().first();
+//
+//        if(pointsInterface!=null) return pointsInterface.getText();
+//
+//        return "";
+//    }
 
     public static String getBestItem()
     {
         int mostPointsIndex = getMostPointsIndex();
-
-        if(mostPointsIndex == -1) return "";
 
         return itemsList.get(mostPointsIndex);
     }
@@ -94,8 +90,18 @@ public class AlchemistGameState {
     {
         if(!Objects.equals(lastBestItem, getBestItem()))
         {
-            System.out.println("Oops everything changed and we're lost");
-            return itemsList.indexOf(lastBestItem);
+            var cupboard = GameObjects.newQuery().names("Cupboard").results().nearest();
+
+            if(cupboard == null)
+            {
+                System.out.println("Oops everything changed and there's no nearby cupboard so go to cupboard 0");
+                return 0;
+            }
+
+            var nearestCupboard = cupboard.getPosition();
+            var nearestCupboardIndex = coordinates.indexOf(nearestCupboard);
+            System.out.println("Oops everything changed and so testing nearest cupboard " + nearestCupboardIndex);
+            return nearestCupboardIndex;
         }
         lastBestItem = getBestItem();
         if(nextToTry != -1) return nextToTry;
@@ -124,61 +130,68 @@ public class AlchemistGameState {
         }
     }
 
-    public static void printOrder() {
-        String[] printedOrder = new String[] {"none","none","none","none","none","none","none","none"};
-
-        for(int i=order; i<order+itemsList.size(); i++)
-        {
-            printedOrder[i%8] = itemsList.get(i-order);
-        }
-
-        System.out.println(Arrays.toString(printedOrder));
-    }
+//    public static void printOrder() {
+//        String[] printedOrder = new String[] {"none","none","none","none","none","none","none","none"};
+//
+//        for(int i=order; i<order+itemsList.size(); i++)
+//        {
+//            printedOrder[i%8] = itemsList.get(i-order);
+//        }
+//
+//        System.out.println(Arrays.toString(printedOrder));
+//    }
 
     private static int order = 0;
     private static int nextToTry = -1;
 
     private static String lastBestItem = itemsList.get(0);
 
+
     public static void justPickedUp(String item) {
+
+        System.out.println("Just picked up an item!");
+
         var player = Players.getLocal();
 
         if(player!=null)
         {
-            var nearestCupboard = coordinates.stream().min((coord1, coord2) -> (int)(player.distanceTo(coord1) - player.distanceTo(coord2)));
-
-            if(nearestCupboard.isPresent())
+            var cupboard = GameObjects.newQuery().names("Cupboard").results().nearest();
+            if(cupboard == null)
             {
-                int cupboardIndex = coordinates.indexOf(nearestCupboard.get());
-                int itemIndex = itemsList.indexOf(item);
+                return;
+            }
 
-                if(Objects.equals(item, ""))
+            var nearestCupboard = cupboard.getPosition();
+            int cupboardIndex = coordinates.indexOf(nearestCupboard);
+            int itemIndex = itemsList.indexOf(item);
+
+            if(Objects.equals(item, ""))
+            {
+                if(nextToTry == -1)
                 {
-                    if(nextToTry == -1)
-                    {
-                        nextToTry = (cupboardIndex+2)%coordinates.size();
-                        System.out.printf("Because picked up none at cupboard %x, try cupboard %x", cupboardIndex, nextToTry);
-                        System.out.println();
-                    }
-                    else if(nextToTry == cupboardIndex)
-                    {
-                        nextToTry = -1;
-                        order = getOrderFromLocationAndItemIndices(cupboardIndex, 7);
-                        printOrder();
-                        System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
-                        System.out.println();
-                    }
+                    nextToTry = (cupboardIndex+2)%coordinates.size();
+//                    System.out.printf("Because picked up none at cupboard %x, try cupboard %x", cupboardIndex, nextToTry);
+//                    System.out.println();
                 }
-                else
+                else if(nextToTry == cupboardIndex)
                 {
                     nextToTry = -1;
-                    order = getOrderFromLocationAndItemIndices(cupboardIndex, itemIndex);
-                    printOrder();
-                    System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
-                    System.out.println();
+                    order = getOrderFromLocationAndItemIndices(cupboardIndex, 7);
+//                    printOrder();
+//                    System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
+//                    System.out.println();
                 }
-                lastBestItem = getBestItem();
             }
+            else
+            {
+                nextToTry = -1;
+                order = getOrderFromLocationAndItemIndices(cupboardIndex, itemIndex);
+//                printOrder();
+//                System.out.printf("Going to position %x to get %s", getBestItemLocationIndex(), getBestItem());
+//                System.out.println();
+            }
+            lastBestItem = getBestItem();
+
         }
     }
 }

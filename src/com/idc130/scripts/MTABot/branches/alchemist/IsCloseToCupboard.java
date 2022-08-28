@@ -12,7 +12,7 @@ public class IsCloseToCupboard extends BranchTask {
     public boolean validate() {
         var location = AlchemistGameState.getBestCupboardArea2();
 
-        return location.contains(Players.getLocal()) || location.isVisible();
+        return location.contains(Players.getLocal());
     }
 
     @Override

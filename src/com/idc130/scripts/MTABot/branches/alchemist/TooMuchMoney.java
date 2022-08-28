@@ -1,25 +1,29 @@
 package com.idc130.scripts.MTABot.branches.alchemist;
 
-import com.idc130.scripts.MTABot.leaves.alchemist.AlchItem;
-import com.idc130.scripts.MTABot.state.AlchemistGameState;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
-public class HasAlchemistItem extends BranchTask {
-
+public class TooMuchMoney extends BranchTask {
     @Override
     public boolean validate() {
-        return Inventory.contains(AlchemistGameState.getBestItem());
+        var coins = Inventory.getItems("Coins");
+
+        if(coins.size() > 0)
+        {
+            return coins.get(0).getQuantity() > 1500;
+        }
+
+        return false;
     }
 
     @Override
     public TreeTask successTask() {
-        return new AlchItem();
+        return new AtCoinCollector();
     }
 
     @Override
     public TreeTask failureTask() {
-        return new InventoryTooFull();
+        return new IsCloseToCupboard();
     }
 }

@@ -2,6 +2,7 @@ package com.idc130.scripts.MTABot.leaves.alchemist;
 
 import com.idc130.scripts.MTABot.state.AlchemistGameState;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
+import com.runemate.game.api.osrs.local.hud.interfaces.ControlPanelTab;
 import com.runemate.game.api.osrs.local.hud.interfaces.Magic;
 import com.runemate.game.api.script.Execution;
 import com.runemate.game.api.script.framework.tree.LeafTask;
@@ -13,11 +14,17 @@ public class AlchItem extends LeafTask {
 
         if(Magic.HIGH_LEVEL_ALCHEMY.activate())
         {
-            var itemToAlch = Inventory.getItems(AlchemistGameState.getItemsArray()).first();
+            Execution.delayUntil(() -> ControlPanelTab.getOpened() == ControlPanelTab.INVENTORY, 250, 1000);
+
+            var itemToAlch = Inventory.getItems(AlchemistGameState.getBestItem()).first();
 
             if(itemToAlch != null)
             {
+                var previousEmptySlots = Inventory.getEmptySlots();
+
                 itemToAlch.click();
+
+                Execution.delayUntil(() -> Inventory.getEmptySlots() > previousEmptySlots, 250, 1000);
             }
         }
     }
