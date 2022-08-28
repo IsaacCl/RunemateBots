@@ -1,13 +1,72 @@
 package com.idc130.scripts.MTABot.utils;
 
+import com.runemate.game.api.hybrid.entities.GameObject;
+import com.runemate.game.api.hybrid.location.Area;
+import com.runemate.game.api.hybrid.location.Coordinate;
+import com.runemate.game.api.hybrid.region.GameObjects;
+
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Maze {
-
     Cell[][] cells;
     int[] goalLocation;
+    private final int minX;
+    private final int minY;
 
-    public int[] getNextLocation(int[] start, Direction direction)
+    public Maze()
+    {
+        var mazePieces = GameObjects.newQuery().ids(10755).results().asList();
+
+         minX = mazePieces.stream().map(piece -> piece.getPosition().getX()).min(Comparator.comparingInt(a -> a)).get() +1;
+         minY = mazePieces.stream().map(piece -> piece.getPosition().getY()).min(Comparator.comparingInt(a -> a)).get() +1;
+
+        for(var piece : mazePieces)
+        {
+            addPieceToMaze(piece.getPosition(), piece.getDirection().name());
+        }
+
+        solve();
+    }
+
+    public Area getNextMove()
+    {
+        return null;
+    }
+
+    private void addPieceToMaze(Coordinate location, String position)
+    {
+        var normalisedX = location.getX() - minX;
+        var normalisedY = location.getY() - minY;
+
+        if(normalisedY <0 || normalisedY >= 10 || normalisedX <0 || normalisedX >= 10) return;
+
+        switch(position)
+        {
+            case "NORTH_WEST":
+                cells[normalisedX][normalisedY].southBlocked = true;
+                if(normalisedY-1 > 0)
+                    cells[normalisedX][normalisedY-1].northBlocked = true;
+                break;
+            case "NORTH_EAST":
+                cells[normalisedX][normalisedY].westBlocked = true;
+                if(normalisedX-1 > 0)
+                    cells[normalisedX-1][normalisedY].eastBlocked = true;
+                break;
+            case "SOUTH_EAST":
+                cells[normalisedX][normalisedY].northBlocked = true;
+                if(normalisedY+1 < 10)
+                    cells[normalisedX][normalisedY+1].southBlocked = true;
+                break;
+            case "SOUTH_WEST":
+                cells[normalisedX][normalisedY].eastBlocked = true;
+                if(normalisedX+1 < 10)
+                    cells[normalisedX+1][normalisedY].westBlocked = true;
+                break;
+        }
+    }
+
+    private int[] getNextLocation(int[] start, Direction direction)
     {
         int newLength = start.length;
 
@@ -22,12 +81,12 @@ public class Maze {
         return nextLocation;
     }
 
-    public boolean locationsEqual(int[] location1, int[] location2)
+    private boolean locationsEqual(int[] location1, int[] location2)
     {
         return location1[0] == location2[0] && location1[1] == location2[1];
     }
 
-    public void solve()
+    private void solve()
     {
         Label[][] solution = new Label[10][10];
         for(int x=0; x<10; x++)
