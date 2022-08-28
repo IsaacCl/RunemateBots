@@ -21,15 +21,21 @@ import java.io.IOException;
 /*
 Design principles:
 - Maximum of one action per cycle.
-- Some execution delay per cycle for performance reasons.
+- Some execution delay per cycle for performance reasons unless click spamming.
 - Prefer events for tracking game state over recording ingame events
 - As much logic in tree as possible
+ */
+
+/*
+Tasks before release:
+generic spells. Probably a dropdown for now about which enchanting spell and which alch spell.
  */
 
 public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
 
     public static boolean shouldDoCreatureGraveyard = false;
     public static boolean shouldDoAlchemist = false;
+    public static boolean shouldDoEnchanters = false;
 
     private ObjectProperty<Node> botInterfaceProperty;
 

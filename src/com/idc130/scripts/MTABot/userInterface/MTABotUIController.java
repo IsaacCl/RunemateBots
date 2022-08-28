@@ -12,11 +12,11 @@ import java.util.ResourceBundle;
 public class MTABotUIController implements Initializable {
 
     @FXML
+    private CheckBox checkDoEnchanters;
+    @FXML
     private CheckBox checkDoCreatureGraveyard;
-
     @FXML
     private CheckBox checkShouldDoAlchemist;
-
     @FXML
     private ImageView imageView;
 
@@ -35,6 +35,13 @@ public class MTABotUIController implements Initializable {
             MTABot.shouldDoAlchemist = checkShouldDoAlchemist.isSelected();
 
             System.out.println("set shouldDoAlchemist to " + Boolean.toString(MTABot.shouldDoAlchemist).toUpperCase(Locale.ROOT));
+        });
+
+        checkDoEnchanters.setOnAction(event ->
+        {
+            MTABot.shouldDoEnchanters = checkDoEnchanters.isSelected();
+
+            System.out.println("set shouldDoAlchemist to " + Boolean.toString(MTABot.shouldDoEnchanters).toUpperCase(Locale.ROOT));
         });
     }
 
