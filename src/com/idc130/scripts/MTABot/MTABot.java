@@ -36,11 +36,12 @@ public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
     public static boolean shouldDoCreatureGraveyard = false;
     public static boolean shouldDoAlchemist = false;
     public static boolean shouldDoEnchanters = false;
+    public static boolean shouldToTelekinetic = false;
 
     private ObjectProperty<Node> botInterfaceProperty;
+    private long lastExecutionTime = 0;
 
-    public MTABot()
-    {
+    public MTABot() {
         setEmbeddableUI(this);
     }
 
@@ -54,31 +55,28 @@ public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
         getEventDispatcher().removeListener(this);
     }
 
-    private long lastExecutionTime = 0;
-
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
         // Because of RuneMate event bug
-        if(System.currentTimeMillis() - lastExecutionTime < 1000)
-        {
+        if (System.currentTimeMillis() - lastExecutionTime < 1000) {
             return;
         }
         lastExecutionTime = System.currentTimeMillis();
 
         String message = messageEvent.getMessage();
-        if(messageEvent.getType() == Chatbox.Message.Type.SERVER){
-            if(message.contains("boots")){
+        if (messageEvent.getType() == Chatbox.Message.Type.SERVER) {
+            if (message.contains("boots")) {
                 AlchemistGameState.justPickedUp("Leather boots");
-            }else if(message.contains("kiteshield")){
+            } else if (message.contains("kiteshield")) {
                 AlchemistGameState.justPickedUp("Adamant kiteshield");
-            }else if(message.contains("helm")){
+            } else if (message.contains("helm")) {
                 AlchemistGameState.justPickedUp("Adamant med helm");
-            }else if(message.contains("Emerald")){
+            } else if (message.contains("Emerald")) {
                 AlchemistGameState.justPickedUp("Emerald");
-            }else if(message.contains("longsword")) {
+            } else if (message.contains("longsword")) {
                 AlchemistGameState.justPickedUp("Rune longsword");
-            }else if(message.contains("empty")) {
+            } else if (message.contains("empty")) {
                 AlchemistGameState.justPickedUp("");
             }
         }
@@ -91,8 +89,7 @@ public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
 
     @Override
     public ObjectProperty<? extends Node> botInterfaceProperty() {
-        if(botInterfaceProperty == null)
-        {
+        if (botInterfaceProperty == null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setController(new MTABotUIController());
             try {

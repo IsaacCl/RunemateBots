@@ -1,9 +1,11 @@
 package com.idc130.scripts.MTABot.userInterface;
+
 import com.idc130.scripts.MTABot.MTABot;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
+
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -18,11 +20,12 @@ public class MTABotUIController implements Initializable {
     @FXML
     private CheckBox checkShouldDoAlchemist;
     @FXML
+    private CheckBox checkShouldDoTelekinetic;
+    @FXML
     private ImageView imageView;
 
     @FXML
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         checkDoCreatureGraveyard.setOnAction(event ->
         {
             MTABot.shouldDoCreatureGraveyard = checkDoCreatureGraveyard.isSelected();
@@ -41,7 +44,14 @@ public class MTABotUIController implements Initializable {
         {
             MTABot.shouldDoEnchanters = checkDoEnchanters.isSelected();
 
-            System.out.println("set shouldDoAlchemist to " + Boolean.toString(MTABot.shouldDoEnchanters).toUpperCase(Locale.ROOT));
+            System.out.println("set checkDoEnchanters to " + Boolean.toString(MTABot.shouldDoEnchanters).toUpperCase(Locale.ROOT));
+        });
+
+        checkShouldDoTelekinetic.setOnAction(event ->
+        {
+            MTABot.shouldToTelekinetic = checkShouldDoTelekinetic.isSelected();
+
+            System.out.println("set shouldToTelekinetic to " + Boolean.toString(MTABot.shouldToTelekinetic).toUpperCase(Locale.ROOT));
         });
     }
 
