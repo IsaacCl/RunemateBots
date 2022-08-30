@@ -8,14 +8,16 @@ import com.runemate.game.api.hybrid.region.Npcs;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Maze {
-    private final int minX;
-    private final int minY;
+    public boolean failedToBuild = false;
     Cell[][] cells = new Cell[10][10];
     Label[][] solution = new Label[10][10];
-
     int[] startLocation = new int[2];
+    int[] goalLocation = new int[2];
+    private int minX;
+    private int minY;
 
     public Maze() {
         for (int x = 0; x < 10; x++) {
@@ -26,22 +28,34 @@ public class Maze {
 
         var mazePieces = GameObjects.newQuery().ids(10755).defaultColors(new Color(94, 94, 94)).results().asList();
 
-        minX = mazePieces.stream().map(piece -> piece.getPosition().getX()).min(Comparator.comparingInt(a -> a)).get() + 1;
-        minY = mazePieces.stream().map(piece -> piece.getPosition().getY()).min(Comparator.comparingInt(a -> a)).get() + 1;
-
-        for (var piece : mazePieces) {
-            addPieceToMaze(piece.getPosition(), piece.getDirection().name(), piece.getModel().toString().equals("Model(origin: cache, components: 10674)"));
-
-            // The below identifies a corner piece. I believe that a NORTH_EAST corner piece covers west and north
+        if (mazePieces.size() == 0) {
+            failedToBuild = true;
+            return;
         }
 
-        var goalPosition = GameObjects.newQuery().ids(23672).results().nearest().getPosition();
-        var mazeGuardian = Npcs.newQuery().names("Maze Guardian").results().nearest().getPosition();
+        try {
+            minX = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getX()).min(Comparator.comparingInt(a -> a)).get() + 1;
+            minY = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getY()).min(Comparator.comparingInt(a -> a)).get() + 1;
 
-        startLocation[0] = mazeGuardian.getX() - minX;
-        startLocation[1] = mazeGuardian.getY() - minY;
+            for (var piece : mazePieces) {
+                addPieceToMaze(piece.getPosition(), piece.getDirection().name(), piece.getModel().toString().equals("Model(origin: cache, components: 10674)"));
 
-        solve();
+                // The below identifies a corner piece. I believe that a NORTH_EAST corner piece covers west and north
+            }
+
+            var goalPosition = GameObjects.newQuery().ids(23672).results().nearest().getPosition();
+            var mazeGuardian = Npcs.newQuery().names("Maze Guardian").results().nearest().getPosition();
+
+            startLocation[0] = mazeGuardian.getX() - minX;
+            startLocation[1] = mazeGuardian.getY() - minY;
+
+            goalLocation[0] = goalPosition.getX() - minX;
+            goalLocation[1] = goalPosition.getY() - minY;
+
+            solve();
+        } catch (NullPointerException exception) {
+            failedToBuild = true;
+        }
     }
 
     public void print() {
@@ -51,7 +65,7 @@ public class Maze {
                 if (solution[x][y].distance == -1) {
                     System.out.print("-,");
                 } else {
-                    System.out.print(solution[x][y].distance + ",");
+                    System.out.print(solution[x][y].firstMove + ",");
                 }
             }
             System.out.println();
@@ -60,7 +74,22 @@ public class Maze {
     }
 
     public Area getNextMove() {
+        switch (getNextMoveString()) {
+            case "north":
+                return new Area.Rectangular(new Coordinate(minX, minY + 10, 0), new Coordinate(minX + 9, minY + 10, 0));
+            case "south":
+                return new Area.Rectangular(new Coordinate(minX, minY - 1, 0), new Coordinate(minX + 9, minY - 1, 0));
+            case "east":
+                return new Area.Rectangular(new Coordinate(minX + 10, minY, 0), new Coordinate(minX + 10, minY + 9, 0));
+            case "west":
+                return new Area.Rectangular(new Coordinate(minX - 1, minY, 0), new Coordinate(minX - 1, minY + 9, 0));
+        }
+
         return null;
+    }
+
+    public String getNextMoveString() {
+        return solution[goalLocation[0]][goalLocation[1]].firstMove;
     }
 
     private void addPieceToMaze(Coordinate location, String position, boolean isCornerPiece) {
@@ -150,9 +179,9 @@ public class Maze {
 
         solution[startLocation[0]][startLocation[1]].distance = 0;
 
-        var directions = new Direction[]{new Direction(0, 1, "south"), new Direction(0, -1, "north"), new Direction(1, 0, "west"), new Direction(-1, 0, "east")};
+        var directions = new Direction[]{new Direction(0, 1, "north", "south"), new Direction(0, -1, "south", "north"), new Direction(1, 0, "east", "west"), new Direction(-1, 0, "west", "east")};
 
-        for (int step = 0; step < 10; step++) {
+        for (int step = 0; step < 9; step++) {
             for (int x = 0; x < 10; x++) {
                 for (int y = 0; y < 10; y++) {
                     if (solution[x][y].distance == step) {
@@ -161,7 +190,11 @@ public class Maze {
                         for (var direction : directions) {
                             var nextNorthLocation = getNextLocation(location, direction);
                             if (!locationsEqual(location, nextNorthLocation)) {
-                                solution[nextNorthLocation[0]][nextNorthLocation[1]].setIfUnassigned(step + 1, direction.oppositeDirection);
+                                if (solution[x][y].firstMove.equals("")) {
+                                    solution[nextNorthLocation[0]][nextNorthLocation[1]].setIfUnassigned(step + 1, direction.sameDirection, direction.sameDirection);
+                                } else {
+                                    solution[nextNorthLocation[0]][nextNorthLocation[1]].setIfUnassigned(step + 1, direction.sameDirection, solution[x][y].firstMove);
+                                }
                             }
                         }
                     }
@@ -169,28 +202,34 @@ public class Maze {
             }
         }
     }
+
+
 }
 
 class Direction {
     public int x;
     public int y;
+    public String sameDirection;
     public String oppositeDirection;
 
-    public Direction(int x, int y, String oppositeDirection) {
+    public Direction(int x, int y, String sameDirection, String oppositeDirection) {
         this.x = x;
         this.y = y;
         this.oppositeDirection = oppositeDirection;
+        this.sameDirection = sameDirection;
     }
 }
 
 class Label {
     public int distance = -1;
     public String lastMove = "";
+    public String firstMove = "";
 
-    public void setIfUnassigned(int distance, String lastMove) {
+    public void setIfUnassigned(int distance, String lastMove, String firstMove) {
         if (this.distance == -1) {
             this.distance = distance;
             this.lastMove = lastMove;
+            this.firstMove = firstMove;
         }
     }
 }
