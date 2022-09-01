@@ -34,22 +34,28 @@ public class Maze {
         }
 
         try {
-            minX = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getX()).min(Comparator.comparingInt(a -> a)).get() + 1;
-            minY = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getY()).min(Comparator.comparingInt(a -> a)).get() + 1;
 
-            for (var piece : mazePieces) {
-                addPieceToMaze(piece.getPosition(), piece.getDirection().name(), piece.getModel().toString().equals("Model(origin: cache, components: 10674)"));
-
-                // The below identifies a corner piece. I believe that a NORTH_EAST corner piece covers west and north
+            var minXOptional = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getX()).min(Comparator.comparingInt(a -> a));
+            var minYOptional = mazePieces.stream().map(piece -> Objects.requireNonNull(piece.getPosition()).getY()).min(Comparator.comparingInt(a -> a));
+            if (minYOptional.isPresent()) {
+                minX = minXOptional.get() + 1;
+                minY = minYOptional.get() + 1;
+            } else {
+                failedToBuild = true;
+                return;
             }
 
-            var goalPosition = GameObjects.newQuery().ids(23672).results().nearest().getPosition();
-            var mazeGuardian = Npcs.newQuery().names("Maze Guardian").results().nearest().getPosition();
+            for (var piece : mazePieces) {
+                addPieceToMaze(Objects.requireNonNull(piece.getPosition()), Objects.requireNonNull(piece.getDirection()).name(), Objects.requireNonNull(piece.getModel()).toString().equals("Model(origin: cache, components: 10674)"));
+            }
 
-            startLocation[0] = mazeGuardian.getX() - minX;
+            var goalPosition = Objects.requireNonNull(GameObjects.newQuery().ids(23672).results().nearest()).getPosition();
+            var mazeGuardian = Objects.requireNonNull(Npcs.newQuery().names("Maze Guardian").results().nearest()).getPosition();
+
+            startLocation[0] = Objects.requireNonNull(mazeGuardian).getX() - minX;
             startLocation[1] = mazeGuardian.getY() - minY;
 
-            goalLocation[0] = goalPosition.getX() - minX;
+            goalLocation[0] = Objects.requireNonNull(goalPosition).getX() - minX;
             goalLocation[1] = goalPosition.getY() - minY;
 
             if (outOfBounds(startLocation) || outOfBounds(goalLocation)) {
