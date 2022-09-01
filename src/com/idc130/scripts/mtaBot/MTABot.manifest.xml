@@ -10,6 +10,6 @@
         <category>MAGIC</category>
     </categories>
     <resources>
-        <resource>com/idc130/scripts/MTABot/userInterface/MTABotUIView.fxml</resource>
+        <resource>com/idc130/scripts/mtaBot/userInterface/MTABotUIView.fxml</resource>
     </resources>
 </manifest>

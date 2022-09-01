@@ -24,13 +24,16 @@ public class MTABotUIController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+
         minigameSelector.getItems().add("alchemist");
         minigameSelector.getItems().add("enchantment");
         minigameSelector.getItems().add("telekinetic");
         minigameSelector.getItems().add("graveyard");
+        minigameSelector.setValue("alchemist");
 
         alchemySelector.getItems().add("high alchemy");
         alchemySelector.getItems().add("low alchemy");
+        alchemySelector.setValue("high alchemy");
 
         enchantSelector.getItems().add("Enchant level 1");
         enchantSelector.getItems().add("Enchant level 2");
@@ -39,6 +42,7 @@ public class MTABotUIController implements Initializable {
         enchantSelector.getItems().add("Enchant level 5");
         enchantSelector.getItems().add("Enchant level 6");
         enchantSelector.getItems().add("Enchant level 7");
+        enchantSelector.setValue("Enchant level 7");
 
         goButton.setOnAction(event ->
         {
