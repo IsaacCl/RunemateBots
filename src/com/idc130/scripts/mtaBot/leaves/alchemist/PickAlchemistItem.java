@@ -1,5 +1,6 @@
 package com.idc130.scripts.mtaBot.leaves.alchemist;
 
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.script.Execution;
@@ -15,7 +16,7 @@ public class PickAlchemistItem extends LeafTask {
 
         var bestItemCupboard = GameObjects.newQuery().names("Cupboard").on(bestItemLocation).results().first();
 
-        System.out.println("Picking best item" + getBestItemLocationIndex() + " at cupboard " + bestItemCupboard + " at location " + bestItemLocation);
+        Environment.getLogger().info("Picking best item" + getBestItemLocationIndex() + " at cupboard " + bestItemCupboard + " at location " + bestItemLocation);
 
         if (bestItemCupboard != null) {
             var previousEmptySlots = Inventory.getEmptySlots();

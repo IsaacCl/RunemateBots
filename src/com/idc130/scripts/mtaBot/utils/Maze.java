@@ -73,21 +73,6 @@ public class Maze {
         return coordinate[0] < 0 || coordinate[0] > 10 || coordinate[1] < 0 || coordinate[1] > 10;
     }
 
-    public void print() {
-        System.out.println("---------------------------------------");
-        for (int y = 9; y >= 0; y--) {
-            for (int x = 0; x < 10; x++) {
-                if (solution[x][y].distance == -1) {
-                    System.out.print("-,");
-                } else {
-                    System.out.print(solution[x][y].firstMove + ",");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("---------------------------------------");
-    }
-
     public Area getNextMove() {
         switch (getNextMoveString()) {
             case "north":

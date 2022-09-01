@@ -5,26 +5,30 @@ import com.idc130.scripts.mtaBot.branches.alchemist.IsInLobbyAlchemist;
 import com.idc130.scripts.mtaBot.branches.enchantment.IsInLobbyEnchantment;
 import com.idc130.scripts.mtaBot.branches.graveyard.IsInLobbyGraveyard;
 import com.idc130.scripts.mtaBot.branches.telekinetic.IsInLobbyTelekinetic;
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.LeafTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
+import java.util.Objects;
+
 public class ShouldStartBot extends BranchTask {
     @Override
     public boolean validate() {
-        return MTABot.shouldDoCreatureGraveyard || MTABot.shouldDoAlchemist || MTABot.shouldDoEnchanters || MTABot.shouldToTelekinetic;
+        return !Objects.equals(MTABot.minigame, "");
     }
 
     @Override
     public TreeTask successTask() {
-        if (MTABot.shouldDoCreatureGraveyard) {
-            return new IsInLobbyGraveyard();
-        } else if (MTABot.shouldDoAlchemist) {
-            return new IsInLobbyAlchemist();
-        } else if (MTABot.shouldDoEnchanters) {
-            return new IsInLobbyEnchantment();
-        } else if (MTABot.shouldToTelekinetic) {
-            return new IsInLobbyTelekinetic();
+        switch (MTABot.minigame) {
+            case "graveyard":
+                return new IsInLobbyGraveyard();
+            case "alchemist":
+                return new IsInLobbyAlchemist();
+            case "enchantment":
+                return new IsInLobbyEnchantment();
+            case "telekinetic":
+                return new IsInLobbyTelekinetic();
         }
 
         return null;
@@ -35,7 +39,7 @@ public class ShouldStartBot extends BranchTask {
         return new LeafTask() {
             @Override
             public void execute() {
-                System.out.println("Doing nothing!");
+                Environment.getLogger().info("Doing nothing!");
             }
         };
     }

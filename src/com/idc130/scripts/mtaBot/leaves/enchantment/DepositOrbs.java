@@ -1,5 +1,6 @@
 package com.idc130.scripts.mtaBot.leaves.enchantment;
 
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.script.Execution;
@@ -9,7 +10,7 @@ public class DepositOrbs extends LeafTask {
 
     @Override
     public void execute() {
-        System.out.println("Depositing orbs");
+        Environment.getLogger().info("Depositing orbs");
 
         var hole = GameObjects.newQuery().names("Hole").results().nearest();
 

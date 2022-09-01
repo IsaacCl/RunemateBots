@@ -3,55 +3,48 @@ package com.idc130.scripts.mtaBot.userInterface;
 import com.idc130.scripts.mtaBot.MTABot;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 
 public class MTABotUIController implements Initializable {
 
     @FXML
-    private CheckBox checkDoEnchanters;
+    private ChoiceBox<String> enchantSelector;
     @FXML
-    private CheckBox checkDoCreatureGraveyard;
+    private ChoiceBox<String> alchemySelector;
     @FXML
-    private CheckBox checkShouldDoAlchemist;
+    private ChoiceBox<String> minigameSelector;
     @FXML
-    private CheckBox checkShouldDoTelekinetic;
-    @FXML
-    private ImageView imageView;
+    private Button goButton;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        checkDoCreatureGraveyard.setOnAction(event ->
+
+        minigameSelector.getItems().add("alchemist");
+        minigameSelector.getItems().add("enchantment");
+        minigameSelector.getItems().add("telekinetic");
+        minigameSelector.getItems().add("graveyard");
+
+        alchemySelector.getItems().add("high alchemy");
+        alchemySelector.getItems().add("low alchemy");
+
+        enchantSelector.getItems().add("Enchant level 1");
+        enchantSelector.getItems().add("Enchant level 2");
+        enchantSelector.getItems().add("Enchant level 3");
+        enchantSelector.getItems().add("Enchant level 4");
+        enchantSelector.getItems().add("Enchant level 5");
+        enchantSelector.getItems().add("Enchant level 6");
+        enchantSelector.getItems().add("Enchant level 7");
+
+        goButton.setOnAction(event ->
         {
-            MTABot.shouldDoCreatureGraveyard = checkDoCreatureGraveyard.isSelected();
-
-            System.out.println("set shouldDoCreatureGraveyard to " + Boolean.toString(MTABot.shouldDoCreatureGraveyard).toUpperCase(Locale.ROOT));
-        });
-
-        checkShouldDoAlchemist.setOnAction(event ->
-        {
-            MTABot.shouldDoAlchemist = checkShouldDoAlchemist.isSelected();
-
-            System.out.println("set shouldDoAlchemist to " + Boolean.toString(MTABot.shouldDoAlchemist).toUpperCase(Locale.ROOT));
-        });
-
-        checkDoEnchanters.setOnAction(event ->
-        {
-            MTABot.shouldDoEnchanters = checkDoEnchanters.isSelected();
-
-            System.out.println("set checkDoEnchanters to " + Boolean.toString(MTABot.shouldDoEnchanters).toUpperCase(Locale.ROOT));
-        });
-
-        checkShouldDoTelekinetic.setOnAction(event ->
-        {
-            MTABot.shouldToTelekinetic = checkShouldDoTelekinetic.isSelected();
-
-            System.out.println("set shouldToTelekinetic to " + Boolean.toString(MTABot.shouldToTelekinetic).toUpperCase(Locale.ROOT));
+            MTABot.minigame = minigameSelector.getValue();
+            MTABot.alchemySpell = alchemySelector.getValue();
+            MTABot.enchantSpell = enchantSelector.getValue();
         });
     }
 

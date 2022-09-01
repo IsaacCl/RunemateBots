@@ -26,17 +26,12 @@ Design principles:
 - As much logic in tree as possible
  */
 
-/*
-Tasks before release:
-generic spells. Probably a dropdown for now about which enchanting spell and which alch spell.
- */
 
 public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
 
-    public static boolean shouldDoCreatureGraveyard = false;
-    public static boolean shouldDoAlchemist = false;
-    public static boolean shouldDoEnchanters = false;
-    public static boolean shouldToTelekinetic = false;
+    public static String minigame = "";
+    public static String alchemySpell = "";
+    public static String enchantSpell = "";
 
     private ObjectProperty<Node> botInterfaceProperty;
     private long lastExecutionTime = 0;

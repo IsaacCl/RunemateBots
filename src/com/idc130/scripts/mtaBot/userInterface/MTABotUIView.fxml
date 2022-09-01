@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
+
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="850.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1">
-    <CheckBox fx:id="checkDoEnchanters" layoutX="16.0" layoutY="50.0" mnemonicParsing="false"
-              text="Do enchanters room"/>
-    <CheckBox fx:id="checkDoCreatureGraveyard" layoutX="16.0" layoutY="100.0" mnemonicParsing="false"
-              text="Do creature graveyard"/>
-    <CheckBox fx:id="checkShouldDoTelekinetic" layoutX="16.0" layoutY="130.0" mnemonicParsing="false"
-              text="Do telekinetic"/>
-    <CheckBox fx:id="checkShouldDoAlchemist" layoutX="16.0" layoutY="174.0" mnemonicParsing="false"
-              text="Do alchemist"/>
-    <Text layoutX="16.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="This is an early beta of a Mage Training Arena bot."
-          wrappingWidth="480.0"/>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #323232;"
+            xmlns="http://javafx.com/javafx/18">
+    <Label layoutX="136.0" layoutY="36.0" text="Smart MTA (alpha)" textFill="WHITE">
+        <font>
+            <Font name="Cambria" size="40.0"/>
+        </font>
+    </Label>
+    <ChoiceBox id="enchantSelector" layoutX="225.0" layoutY="114.0" prefWidth="150.0"/>
+    <ChoiceBox id="alchemySelector" layoutX="225.0" layoutY="166.0" prefWidth="150.0"/>
+    <ChoiceBox id="minigameSelector" layoutX="225.0" layoutY="222.0" prefWidth="150.0"/>
+    <Button id="goButton" layoutX="191.0" layoutY="286.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="219.0"
+            text="Go">
+        <font>
+            <Font size="36.0"/>
+        </font>
+    </Button>
 </AnchorPane>

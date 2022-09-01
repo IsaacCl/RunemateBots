@@ -1,5 +1,6 @@
 package com.idc130.scripts.mtaBot.leaves.telekinetic;
 
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.local.hud.interfaces.ChatDialog;
 import com.runemate.game.api.hybrid.region.Npcs;
 import com.runemate.game.api.script.Execution;
@@ -8,7 +9,7 @@ import com.runemate.game.api.script.framework.tree.LeafTask;
 public class TalkToMazeGuardian extends LeafTask {
     @Override
     public void execute() {
-        System.out.println("Talk to maze guardian");
+        Environment.getLogger().info("Talk to maze guardian");
 
         var mazeGuardian = Npcs.newQuery().names("Maze Guardian").results().first();
 

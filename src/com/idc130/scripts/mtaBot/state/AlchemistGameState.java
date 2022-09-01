@@ -1,5 +1,6 @@
 package com.idc130.scripts.mtaBot.state;
 
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
@@ -82,13 +83,13 @@ public class AlchemistGameState {
             var cupboard = GameObjects.newQuery().names("Cupboard").results().nearest();
 
             if (cupboard == null) {
-                System.out.println("Oops everything changed and there's no nearby cupboard so go to cupboard 0");
+                Environment.getLogger().info("Oops everything changed and there's no nearby cupboard so go to cupboard 0");
                 return 0;
             }
 
             var nearestCupboard = cupboard.getPosition();
             var nearestCupboardIndex = coordinates.indexOf(nearestCupboard);
-            System.out.println("Oops everything changed and so testing nearest cupboard " + nearestCupboardIndex);
+            Environment.getLogger().info("Oops everything changed and so testing nearest cupboard " + nearestCupboardIndex);
             return nearestCupboardIndex;
         }
         lastBestItem = getBestItem();
@@ -103,7 +104,7 @@ public class AlchemistGameState {
             printedOrder[i % 8] = itemsList.get(i - order);
         }
 
-        System.out.println(Arrays.toString(printedOrder));
+        Environment.getLogger().info(Arrays.toString(printedOrder));
     }
 
     public static Area getBestCupboardArea() {
@@ -125,7 +126,7 @@ public class AlchemistGameState {
 
     public static void justPickedUp(String item) {
 
-        System.out.println("Just picked up an item!");
+        Environment.getLogger().info("Just picked up an item!");
 
         var player = Players.getLocal();
 

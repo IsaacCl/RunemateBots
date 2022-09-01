@@ -1,6 +1,7 @@
 package com.idc130.scripts.mtaBot.leaves.telekinetic;
 
 import com.idc130.scripts.mtaBot.utils.WalkingUtils;
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.script.framework.tree.LeafTask;
 
@@ -16,7 +17,7 @@ public class MoveToCorrectSize extends LeafTask {
 
     @Override
     public void execute() {
-        System.out.println("Move to " + correctSide + " (" + correctArea + ")");
+        Environment.getLogger().info("Move to " + correctSide + " (" + correctArea + ")");
 
         WalkingUtils.walkToLocalArea(correctArea, "correctSide");
     }

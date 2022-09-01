@@ -1,5 +1,6 @@
 package com.idc130.scripts.mtaBot.leaves.graveyard;
 
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.location.navigation.cognizant.RegionPath;
@@ -12,10 +13,10 @@ public class WalkToBonesArea extends LeafTask {
     public void execute() {
         final RegionPath path = RegionPath.buildTo(bonesArea);
         if (path != null) {
-            System.out.println("Walking to bones area");
+            Environment.getLogger().info("Walking to bones area");
             path.step(true);
         } else {
-            System.out.println("Couldn't build a path");
+            Environment.getLogger().info("Couldn't build a path");
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.idc130.scripts.mtaBot.leaves.telekinetic;
 
 import com.idc130.scripts.mtaBot.utils.WalkingUtils;
+import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.region.GameObjects;
@@ -10,7 +11,7 @@ public class MoveToMaze extends LeafTask {
 
     @Override
     public void execute() {
-        System.out.println("Move to maze");
+        Environment.getLogger().info("Move to maze");
 
         var wall = GameObjects.newQuery().ids(10755).results().nearest();
 
