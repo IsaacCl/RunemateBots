@@ -29,6 +29,6 @@ public class IsStatueMoving extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        return new AtCorrectSide();
+        return new CanBuildMaze();
     }
 }

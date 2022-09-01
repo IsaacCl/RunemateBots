@@ -13,11 +13,13 @@ public class TalkToMazeGuardian extends LeafTask {
 
         var mazeGuardian = Npcs.newQuery().names("Maze Guardian").results().first();
 
-        if (ChatDialog.getContinue() != null) {
-            ChatDialog.getContinue().select();
+        var continueDialog = ChatDialog.getContinue();
+        var chatOptions = ChatDialog.getOptions();
+        if (continueDialog != null) {
+            continueDialog.select();
             Execution.delayUntil(() -> ChatDialog.getContinue() == null, 500, 1000);
-        } else if (ChatDialog.getOptions().size() > 0) {
-            if (ChatDialog.getOptions().get(0).select()) {
+        } else if (chatOptions.size() > 0) {
+            if (chatOptions.get(0).select()) {
                 Execution.delay(500, 1000);
             }
         } else if (mazeGuardian != null) {

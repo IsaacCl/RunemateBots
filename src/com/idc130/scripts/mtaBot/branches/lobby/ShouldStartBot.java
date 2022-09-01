@@ -20,18 +20,24 @@ public class ShouldStartBot extends BranchTask {
 
     @Override
     public TreeTask successTask() {
+        BranchTask lobby = null;
+
         switch (MTABot.minigame) {
             case "graveyard":
-                return new IsInLobbyGraveyard();
+                lobby = new IsInLobbyGraveyard();
+                break;
             case "alchemist":
-                return new IsInLobbyAlchemist();
+                lobby = new IsInLobbyAlchemist();
+                break;
             case "enchantment":
-                return new IsInLobbyEnchantment();
+                lobby = new IsInLobbyEnchantment();
+                break;
             case "telekinetic":
-                return new IsInLobbyTelekinetic();
+                lobby = new IsInLobbyTelekinetic();
+                break;
         }
 
-        return null;
+        return new ShouldWalkToLobby(lobby);
     }
 
     @Override
