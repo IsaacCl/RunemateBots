@@ -20,7 +20,8 @@ public class AlchemistGameState {
     private static final int pizazzPointsInterfaceId = 12713995;
 
     private static final int[] itemInterfaceIds = {12713996, 12713997, 12713998, 12713999, 12714000};
-
+    private static int mostPointsIndexCache = -1;
+    private static long timeSinceCache = 0;
     //    private static final int pizazzPointsInterfaceId = 12713995;
     private static int order = 0;
     private static int nextToTry = -1;
@@ -57,14 +58,24 @@ public class AlchemistGameState {
     }
 
     private static int getMostPointsIndex() {
+        if (System.currentTimeMillis() - timeSinceCache < 2000) {
+            Environment.getLogger().info("Getting most points index from cache");
+            return mostPointsIndexCache;
+        }
+        Environment.getLogger().info("Calculating most points index");
+
         for (var i = 0; i < itemInterfaceIds.length; i++) {
             var pointsInterface = Interfaces.newQuery().ids(itemInterfaceIds[i]).results().first();
 
             if (pointsInterface != null && Objects.equals(pointsInterface.getText(), "30")) {
+                mostPointsIndexCache = i;
+                timeSinceCache = System.currentTimeMillis();
                 return i;
             }
         }
 
+        mostPointsIndexCache = 0;
+        timeSinceCache = System.currentTimeMillis();
         return 0;
     }
 
@@ -94,7 +105,7 @@ public class AlchemistGameState {
         }
         lastBestItem = getBestItem();
         if (nextToTry != -1) return nextToTry;
-        return (itemsList.indexOf(getBestItem()) + order) % coordinates.size();
+        return (itemsList.indexOf(lastBestItem) + order) % coordinates.size();
     }
 
     public static void printOrder() {

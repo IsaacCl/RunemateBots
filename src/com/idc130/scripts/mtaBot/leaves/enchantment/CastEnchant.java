@@ -15,7 +15,7 @@ public class CastEnchant extends LeafTask {
 
         Magic spell;
 
-        switch (MTABot.alchemySpell) {
+        switch (MTABot.enchantSpell) {
             case "Enchant level 1":
                 spell = Magic.LVL_1_ENCHANT;
                 break;
@@ -39,7 +39,7 @@ public class CastEnchant extends LeafTask {
         }
 
         if (spell.activate()) {
-            Execution.delayUntil(() -> ControlPanelTab.getOpened() == ControlPanelTab.INVENTORY, 250, 1000);
+            Execution.delayUntil(() -> ControlPanelTab.getOpened() == ControlPanelTab.INVENTORY, 500, 2000);
 
             var itemToEnchant = Inventory.getItems("Cube").last();
 
@@ -48,7 +48,7 @@ public class CastEnchant extends LeafTask {
 
                 itemToEnchant.click();
 
-                Execution.delayUntil(() -> Inventory.getItems("Cube").size() < previousNumberCubes, 250, 1000);
+                Execution.delayUntil(() -> Inventory.getItems("Cube").size() < previousNumberCubes, 500, 2000);
             }
         }
     }

@@ -3,6 +3,7 @@ package com.idc130.scripts.mtaBot.branches.lobby;
 import com.idc130.scripts.mtaBot.leaves.lobby.WalkToLobby;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
+import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Npcs;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.tree.BranchTask;
@@ -22,7 +23,14 @@ public class ShouldWalkToLobby extends BranchTask {
     public boolean validate() {
         var numGuardians = Npcs.newQuery().names("Enchantment Guardian", "Maze Guardian", "Telekinetic Guardian", "Graveyard Guardian", "Alchemy Guardian", "Telekinetic Guardian").results().size();
 
-        return !lobbyArea.contains(Players.getLocal()) && numGuardians == 0;
+        if (lobbyArea.contains(Players.getLocal())) {
+            return false;
+        }
+
+        if (numGuardians != 0)
+            return false;
+        var numOtherObjects = GameObjects.newQuery().names("Exit Teleport", "Cube Pile", "Coin Collector").results().size();
+        return numOtherObjects == 0;
     }
 
     @Override
