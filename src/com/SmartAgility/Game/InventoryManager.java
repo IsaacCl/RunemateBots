@@ -13,25 +13,21 @@ import java.util.regex.Pattern;
 
 public class InventoryManager {
 
+    SmartAgility bot;
     private Pattern potionPattern = Pattern.compile("(Super energy|Energy potion|Stamina potion).*");
 
-    SmartAgility bot;
-    public InventoryManager(SmartAgility bot)
-    {
+    public InventoryManager(SmartAgility bot) {
         this.bot = bot;
     }
 
-    public boolean hasEnergyDrinks()
-    {
+    public boolean hasEnergyDrinks() {
         return Inventory.newQuery().names(potionPattern).results().size() > 0;
     }
 
-    public void drinkEnergyDrinks()
-    {
+    public void drinkEnergyDrinks() {
         SpriteItem energyDrink;
 
-        switch (CustomPlayerSense.Key.INVENTORY_SELECTOR.getAsInteger())
-        {
+        switch (CustomPlayerSense.Key.INVENTORY_SELECTOR.getAsInteger()) {
             case 1:
                 energyDrink = Inventory.newQuery().names(potionPattern).results().random();
                 break;
@@ -43,32 +39,26 @@ public class InventoryManager {
                 break;
         }
 
-        if(energyDrink != null && bot.guiData.drinkPotions)
-        {
-            if(energyDrink.interact("Drink"))
-            {
-                Execution.delayUntil(()->!energyDrink.isValid(), 200, 1000);
+        if (energyDrink != null && bot.guiData.drinkPotions) {
+            if (energyDrink.interact("Drink")) {
+                Execution.delayUntil(() -> !energyDrink.isValid(), 200, 1000);
             }
         }
     }
 
-    public boolean needEnergyDrinks()
-    {
+    public boolean needEnergyDrinks() {
         Pattern bankPotionPattern = Pattern.compile(bot.guiData.PotionType + ".*");
-        return bot.guiData.PotionAmount > 0 && Inventory.newQuery().names(bankPotionPattern).results().size()==0;
+        return bot.guiData.PotionAmount > 0 && Inventory.newQuery().names(bankPotionPattern).results().size() == 0;
     }
 
-    public boolean needFood()
-    {
-        return bot.guiData.FoodAmount > 0 && Inventory.newQuery().names(bot.guiData.FoodType).actions("Eat").results().size()==0;
+    public boolean needFood() {
+        return bot.guiData.FoodAmount > 0 && Inventory.newQuery().names(bot.guiData.FoodType).actions("Eat").results().size() == 0;
     }
 
-    public void eatFood()
-    {
+    public void eatFood() {
 
         SpriteItem food;
-        switch (CustomPlayerSense.Key.INVENTORY_SELECTOR.getAsInteger())
-        {
+        switch (CustomPlayerSense.Key.INVENTORY_SELECTOR.getAsInteger()) {
             case 1:
                 food = Inventory.newQuery().actions("Eat").results().random();
                 break;
@@ -80,23 +70,19 @@ public class InventoryManager {
                 break;
         }
 
-        if(food != null && bot.guiData.eatFood)
-        {
-            if(food.interact("Eat"))
-            {
+        if (food != null && bot.guiData.eatFood) {
+            if (food.interact("Eat")) {
                 bot.guiData.randomiseNextFoodHealth();
-                Execution.delayUntil(()->!food.isValid(), 200, 1000);
+                Execution.delayUntil(() -> !food.isValid(), 200, 1000);
             }
-        }
-        else
-        {
+        } else {
             Environment.getBot().stop("Health low and no food in inventory.");
         }
     }
 
 
     public void teleportSeers(Area teleportArea) {
-        SpriteItem teleport = teleport = Inventory.getItems("Camelot teleport").first();
+        SpriteItem teleport = Inventory.getItems("Camelot teleport").first();
 
         if (teleport != null) {
             if (teleport.interact("Break")) {
