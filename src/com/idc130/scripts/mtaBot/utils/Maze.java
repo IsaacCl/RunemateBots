@@ -181,7 +181,7 @@ public class Maze {
 
         var directions = new Direction[]{new Direction(0, 1, "north"), new Direction(0, -1, "south"), new Direction(1, 0, "east"), new Direction(-1, 0, "west")};
 
-        for (int step = 0; step < 9; step++) {
+        for (int step = 0; step < 12; step++) {
             for (int x = 0; x < 10; x++) {
                 for (int y = 0; y < 10; y++) {
                     if (solution[x][y].distance == step) {

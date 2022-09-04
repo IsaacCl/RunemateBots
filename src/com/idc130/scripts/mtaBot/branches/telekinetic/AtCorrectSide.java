@@ -18,6 +18,11 @@ public class AtCorrectSide extends BranchTask {
 
     @Override
     public boolean validate() {
+        if (maze == null) {
+            throw new RuntimeException("Maze is null");
+        } else if (maze.getNextMove() == null) {
+            throw new RuntimeException("next move is null");
+        }
         return !maze.failedToBuild && maze.getNextMove().contains(Players.getLocal());
     }
 

@@ -32,6 +32,8 @@ public class MTABot extends TreeBot implements EmbeddableUI, ChatboxListener {
     public static String minigame = "";
     public static String alchemySpell = "";
     public static String enchantSpell = "";
+    public static String graveyardSpell = "";
+
 
     private ObjectProperty<Node> botInterfaceProperty;
     private long lastExecutionTime = 0;

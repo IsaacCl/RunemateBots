@@ -19,6 +19,8 @@ public class MTABotUIController implements Initializable {
     @FXML
     private ChoiceBox<String> minigameSelector;
     @FXML
+    private ChoiceBox<String> graveyardSelector;
+    @FXML
     private Button goButton;
 
     @FXML
@@ -44,11 +46,16 @@ public class MTABotUIController implements Initializable {
         enchantSelector.getItems().add("Enchant level 7");
         enchantSelector.setValue("Enchant level 7");
 
+        graveyardSelector.getItems().add("Bones to bananas");
+        graveyardSelector.getItems().add("Bones to peaches");
+        graveyardSelector.setValue("Bones to bananas");
+
         goButton.setOnAction(event ->
         {
             MTABot.minigame = minigameSelector.getValue();
             MTABot.alchemySpell = alchemySelector.getValue();
             MTABot.enchantSpell = enchantSelector.getValue();
+            MTABot.graveyardSpell = graveyardSelector.getValue();
         });
     }
 

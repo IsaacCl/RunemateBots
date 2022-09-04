@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #323232;"
+            prefHeight="460.0" prefWidth="600.0" style="-fx-background-color: #323232;"
             xmlns="http://javafx.com/javafx/18">
     <Label layoutX="136.0" layoutY="36.0" text="Smart MTA (alpha)" textFill="WHITE">
         <font>
@@ -13,8 +14,9 @@
     </Label>
     <ChoiceBox fx:id="enchantSelector" layoutX="225.0" layoutY="114.0" prefWidth="150.0"/>
     <ChoiceBox fx:id="alchemySelector" layoutX="225.0" layoutY="166.0" prefWidth="150.0"/>
-    <ChoiceBox fx:id="minigameSelector" layoutX="225.0" layoutY="222.0" prefWidth="150.0"/>
-    <Button fx:id="goButton" layoutX="191.0" layoutY="286.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="219.0"
+    <ChoiceBox fx:id="graveyardSelector" layoutX="225.0" layoutY="218.0" prefWidth="150.0"/>
+    <ChoiceBox fx:id="minigameSelector" layoutX="227.0" layoutY="273.0" prefWidth="150.0"/>
+    <Button fx:id="goButton" layoutX="193.0" layoutY="332.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="219.0"
             text="Go">
         <font>
             <Font size="36.0"/>

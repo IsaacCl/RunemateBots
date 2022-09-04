@@ -24,7 +24,7 @@ public class CanBuildMaze extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        if (maze.failedToBuild) {
+        if (maze.failedToBuild || maze.getNextMove() == null) {
             return new MoveToMaze();
         }
         return new AtCorrectSide(maze);

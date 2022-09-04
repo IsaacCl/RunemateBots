@@ -7,7 +7,7 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 public class HasBananas extends BranchTask {
     @Override
     public boolean validate() {
-        return Inventory.contains("Banana");
+        return Inventory.getItems("Banana", "Peach").size() > 0;
     }
 
     @Override
