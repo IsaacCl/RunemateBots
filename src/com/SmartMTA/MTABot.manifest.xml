@@ -1,0 +1,23 @@
+<manifest>
+    <main-class>com.SmartMTA.MTABot</main-class>
+    <name>Smart MTA (alpha)</name>
+    <tag-line>Bones to peaches at the click of a button</tag-line>
+    <description>Does all four minigames at the mage training arena. Currently, this bot is in alpha. Please report any
+        bugs or
+        non-human behaviour.
+    </description>
+    <version>0.0.1</version>
+    <internal-id>SmartMTA</internal-id>
+    <open-source>false</open-source>
+    <hidden>false</hidden>
+    <access>public</access>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>MAGIC</category>
+    </categories>
+    <resources>
+        <resource>com/SmartMTA/userInterface/MTABotUIView.fxml</resource>
+    </resources>
+</manifest>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" type="javafx.scene.layout.GridPane" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="800.0" minHeight="600.0" prefHeight="700.0" />
+   </rowConstraints>
+   <children>
+      <TabPane fx:id="Steps" tabClosingPolicy="UNAVAILABLE" tabMinWidth="120.0">
+        <tabs>
+            <Tab text="Start bot">
+              <content>
+                <AnchorPane fx:id="StartPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="StartButton" layoutX="214.0" layoutY="352.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="173.0" text="Start">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+          <Tab text="General Options">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="169.0" layoutY="90.0" text="Max runtime (minutes)  " />
+                        <TextField fx:id="MaxRuntime" layoutX="324.0" layoutY="85.0" maxWidth="120.0" minWidth="0.0" prefHeight="31.0" prefWidth="67.0" text="480" />
+                        <Label alignment="CENTER" layoutY="8.0" prefHeight="76.0" prefWidth="600.0" text="Change options">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="UseBoredom" layoutX="169.0" layoutY="139.0" mnemonicParsing="false" text="Use fatigue system (progressive breaks)" />
+                        <CheckBox fx:id="UseSeers" layoutX="170.0" layoutY="190.0" mnemonicParsing="false" selected="true" text="Use Seers teleport (beta)" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Food and energy">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="25.0" layoutY="93.0" prefHeight="21.0" prefWidth="77.0" text="Withdraw " />
+                        <Label layoutX="307.0" layoutY="125.0" prefHeight="21.0" prefWidth="44.0" text="(Food)" />
+                        <Label layoutX="121.0" layoutY="125.0" prefHeight="21.0" prefWidth="65.0" text="(Amount)" />
+                        <Label layoutX="439.0" layoutY="93.0" prefHeight="21.0" prefWidth="74.0" text="from bank" />
+                        <Label layoutX="439.0" layoutY="182.0" prefHeight="21.0" prefWidth="74.0" text="from bank" />
+                        <Label layoutX="121.0" layoutY="219.0" prefHeight="21.0" prefWidth="65.0" text="(Amount)" />
+                        <Label layoutX="300.0" layoutY="219.0" prefHeight="21.0" prefWidth="55.0" text="(Potion)" />
+                        <Label layoutX="25.0" layoutY="182.0" prefHeight="21.0" prefWidth="77.0" text="Withdraw " />
+                        <Label alignment="CENTER" prefHeight="76.0" prefWidth="600.0" text="Please configure items you would like to withdraw from bank (beta)">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="Potions" layoutX="25.0" layoutY="434.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="257.0" selected="true" text="Drink energy potions in inventory" />
+                        <CheckBox fx:id="Food" layoutX="25.0" layoutY="393.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="174.0" selected="true" text="Eat food in inventory" />
+                        <Label alignment="CENTER" layoutX="-2.0" layoutY="301.0" prefHeight="76.0" prefWidth="600.0" text="Other food and energy options">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="FoodAmount" layoutX="103.0" layoutY="88.0" prefHeight="31.0" prefWidth="111.0" />
+                        <ComboBox fx:id="FoodType" layoutX="239.0" layoutY="88.0" prefHeight="31.0" prefWidth="179.0" />
+                        <ComboBox fx:id="PotionAmount" layoutX="103.0" layoutY="177.0" prefHeight="31.0" prefWidth="112.0" />
+                        <ComboBox fx:id="PotionType" layoutX="239.0" layoutY="177.0" prefHeight="31.0" prefWidth="177.0" />
+                        <ComboBox fx:id="EatFoodHealth" layoutX="112.0" layoutY="476.0" prefHeight="31.0" prefWidth="123.0" />
+                        <Label layoutX="25.0" layoutY="481.0" prefHeight="21.0" prefWidth="109.0" text="Eat food at" />
+                        <Label layoutX="247.0" layoutY="481.0" text="hp (+-2)" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab text="Remove courses">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="600.0">
+                     <children>
+                        <GridPane prefHeight="550.0" prefWidth="600.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="441.0" minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="441.0" minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="526.0" minHeight="0.0" prefHeight="404.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label alignment="CENTER" prefHeight="26.0" prefWidth="600.0" text="Please unselect any agility courses you wish to remove">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <GridPane GridPane.rowIndex="2">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <ToggleButton fx:id="Gnome" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Gnome Stronghold" />
+                                    <ToggleButton fx:id="Seers" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Seers Rooftop" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ToggleButton fx:id="Canifis" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Canifis Rooftop" GridPane.rowIndex="2" />
+                                    <ToggleButton fx:id="Varrock" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Varrock Rooftop" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ToggleButton fx:id="Draynor" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Draynor Rooftop" GridPane.columnIndex="1" />
+                                    <ToggleButton fx:id="AlKharid" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Al Kharid Rooftop" GridPane.rowIndex="1" />
+                                    <ToggleButton fx:id="Pollvineach" mnemonicParsing="false" prefHeight="75.0" prefWidth="250.0" selected="true" text="Pollvineach Rooftop" GridPane.rowIndex="3" />
+                                 </children>
+                              </GridPane>
+                              <Label alignment="CENTER" prefHeight="34.0" prefWidth="600.0" text="(Green outline indicates course is selected)" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                              <GridPane prefHeight="43.0" prefWidth="593.0" GridPane.rowIndex="3">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="76.0" prefWidth="600.0" text="(Bot will walk to and train at the best course for your level)">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</fx:root>

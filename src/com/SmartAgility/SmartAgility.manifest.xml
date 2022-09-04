@@ -1,0 +1,36 @@
+<manifest>
+    <main-class>com.SmartAgility.SmartAgility</main-class>
+    <name>Smart Agility</name>
+    <tag-line>Level 80 agility at the click of a button</tag-line>
+    <description>Trains agility from level 1 to 80. PlayerSense, anti-ban, breaks, seamless course changing and never
+        stuck.
+    </description>
+    <version>0.5.5</version>
+    <compatibility>
+        <game-type>OSRS</game-type>
+    </compatibility>
+    <internal-id>SmartAgility</internal-id>
+    <open-source>false</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <categories>
+        <category>AGILITY</category>
+    </categories>
+    <tags>
+        <tag>Agility</tag>
+        <tag>Rooftop</tag>
+        <tag>Courses</tag>
+        <tag>Smart</tag>
+        <tag>Canifis</tag>
+        <tag>Gnome</tag>
+        <tag>Varrock</tag>
+        <tag>Draynor</tag>
+        <tag>Seers</tag>
+        <tag>Pollvineach</tag>
+    </tags>
+    <resources>
+        <resource>com/SmartAgility/UI/SmartAgilityGUI.fxml</resource>
+        <resource>com/SmartAgility/UI/InfoUI.fxml</resource>
+        <resource>com/SmartAgility/UI/logo.png</resource>
+    </resources>
+</manifest>
