@@ -2,8 +2,7 @@
     <main-class>com.SmartAgility.SmartAgility</main-class>
     <name>Smart Agility</name>
     <tag-line>Level 80 agility at the click of a button</tag-line>
-    <description>Trains agility from level 1 to 80. PlayerSense, anti-ban, breaks, seamless course changing and never
-        stuck.
+    <description>Trains agility from level 1 to 80. PlayerSense, anti-ban, breaks, and seamless course changing.
     </description>
     <version>0.5.5</version>
     <compatibility>
