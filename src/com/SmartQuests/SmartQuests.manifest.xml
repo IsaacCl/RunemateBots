@@ -1,0 +1,17 @@
+<manifest>
+    <main-class>com.SmartQuests.SmartQuests</main-class>
+    <name>Smart Quests (alpha)</name>
+    <tag-line>A bunch of quests at the click of a button</tag-line>
+    <description>Does some quests, pretty straightforward</description>
+    <version>0.0.1</version>
+    <internal-id>SmartQuests</internal-id>
+    <open-source>false</open-source>
+    <hidden>false</hidden>
+    <access>public</access>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>QUESTING</category>
+    </categories>
+</manifest>
