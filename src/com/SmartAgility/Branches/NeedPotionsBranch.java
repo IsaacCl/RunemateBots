@@ -10,11 +10,13 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class NeedPotionsBranch extends BranchTask {
 
-    private SmartAgility bot;
-    public NeedPotionsBranch() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+    private final WithdrawPotions withdrawPotions = new WithdrawPotions();
+    private final EmptyLeaf emptyLeaf = new EmptyLeaf("Need potions branch");
 
-    private WithdrawPotions withdrawPotions = new WithdrawPotions();
-    private EmptyLeaf emptyLeaf = new EmptyLeaf("Need potions branch");
+    public NeedPotionsBranch() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {

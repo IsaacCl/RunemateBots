@@ -11,10 +11,10 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class CanTeleport extends BranchTask {
 
-    private SmartAgility bot;
-    private Area teleportArea = new Area.Rectangular(new Coordinate(2704, 3465, 0), new Coordinate(2708, 3459, 0));
-    private HealthBranch healthBranch = new HealthBranch();
-    private TeleportSeers teleportSeers = new TeleportSeers();
+    private final SmartAgility bot;
+    private final Area teleportArea = new Area.Rectangular(new Coordinate(2704, 3465, 0), new Coordinate(2708, 3459, 0));
+    private final HealthBranch healthBranch = new HealthBranch();
+    private final TeleportSeers teleportSeers = new TeleportSeers();
 
     public CanTeleport() {
         bot = (SmartAgility) Environment.getBot();

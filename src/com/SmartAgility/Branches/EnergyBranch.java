@@ -1,8 +1,6 @@
 package com.SmartAgility.Branches;
 
 import com.SmartAgility.Leaves.DrinkEnergyDrink;
-import com.SmartAgility.Leaves.EmptyLeaf;
-import com.SmartAgility.Leaves.PickupItems;
 import com.SmartAgility.SmartAgility;
 import com.runemate.game.api.hybrid.Environment;
 import com.runemate.game.api.script.framework.tree.BranchTask;
@@ -10,12 +8,15 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class EnergyBranch extends BranchTask {
 
-    private DrinkEnergyDrink drinkEnergyDrink = new DrinkEnergyDrink();
-    private PickupBranch pickupBranch = new PickupBranch();
+    private final DrinkEnergyDrink drinkEnergyDrink = new DrinkEnergyDrink();
+    private final PickupBranch pickupBranch = new PickupBranch();
 
 
-    private SmartAgility bot;
-    public EnergyBranch() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public EnergyBranch() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {

@@ -10,36 +10,31 @@ public class PlayerManager {
 
     private final int maxDamage = 8;
 
-    private SmartAgility bot;
-    public PlayerManager(SmartAgility bot)
-    {
+    private final SmartAgility bot;
+
+    public PlayerManager(SmartAgility bot) {
         this.bot = bot;
     }
 
-    public boolean hasLowHealth()
-    {
+    public boolean hasLowHealth() {
         int currentHealth = Health.getCurrent();
         bot.getLogger().debug("Checking if current health: " + currentHealth + "<=" + bot.guiData.getFoodHealth());
         boolean hasLowHealth = (currentHealth <= bot.guiData.getFoodHealth());
-        if(currentHealth <= 0) {
+        if (currentHealth <= 0) {
             return false;
-        }
-        else {
-            if(!hasLowHealth) {
+        } else {
+            if (!hasLowHealth) {
                 bot.getLogger().debug("Has high health");
             }
             return hasLowHealth;
         }
     }
 
-    public boolean hasLowEnergy()
-    {
+    public boolean hasLowEnergy() {
         int runEnergy = Traversal.getRunEnergy();
-        if(runEnergy < 0)
-        {
+        if (runEnergy < 0) {
             return false;
-        }
-        else {
+        } else {
             return Traversal.getRunEnergy() < CustomPlayerSense.Key.DRINKING_ENERGY_BUFFER.getAsInteger();
         }
     }

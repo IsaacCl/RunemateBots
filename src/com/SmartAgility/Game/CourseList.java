@@ -11,28 +11,24 @@ import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.Execution;
-import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public class CourseList  {
+public class CourseList {
 
-    private ArrayList<Course> courses = new ArrayList<>();
-
+    private final ArrayList<Course> courses = new ArrayList<>();
+    private final SmartAgility bot;
+    private final Course GnomeStronghold;
+    private final Course DraynorRooftop;
+    private final Course AlKharidRooftop;
+    private final Course VarrockRooftop;
+    private final Course CanifisRooftop;
+    private final Course SeersRooftop;
+    private final Course PollnivneachRooftop;
     private Course currentCourse;
+    private boolean coursesLoaded = false;
 
-    private SmartAgility bot;
-
-    private Course GnomeStronghold;
-    private Course DraynorRooftop;
-    private Course AlKharidRooftop;
-    private Course VarrockRooftop;
-    private Course CanifisRooftop;
-    private Course SeersRooftop;
-    private Course PollnivneachRooftop;
-
-    public CourseList(SmartAgility bot)
-    {
+    public CourseList(SmartAgility bot) {
         this.bot = bot;
 
         GnomeStronghold = getGnomeStronghold();
@@ -44,49 +40,43 @@ public class CourseList  {
         PollnivneachRooftop = getPollnivneachRooftop();
     }
 
-    private boolean coursesLoaded = false;
-    public void loadCourses()
-    {
-        if(bot.guiData.doGnome) {
+    public void loadCourses() {
+        if (bot.guiData.doGnome) {
             bot.getLogger().debug("Adding gnome stronghold");
             courses.add(GnomeStronghold);
         }
-        if(bot.guiData.doDraynor) {
+        if (bot.guiData.doDraynor) {
             bot.getLogger().debug("Adding draynor");
             courses.add(DraynorRooftop);
         }
-        if(bot.guiData.doAlKharid)
-        {
+        if (bot.guiData.doAlKharid) {
             bot.getLogger().debug("Adding al kharid");
             courses.add(AlKharidRooftop);
         }
-        if(bot.guiData.doVarrock) {
+        if (bot.guiData.doVarrock) {
             bot.getLogger().debug("Adding varrock");
             courses.add(VarrockRooftop);
         }
-        if(bot.guiData.doCanifis) {
+        if (bot.guiData.doCanifis) {
             bot.getLogger().debug("Adding canifis");
             courses.add(CanifisRooftop);
         }
-        if(bot.guiData.doSeers) {
+        if (bot.guiData.doSeers) {
             bot.getLogger().debug("Adding seers");
             courses.add(SeersRooftop);
         }
 
-        if(bot.guiData.doPollnivneach)
-        {
+        if (bot.guiData.doPollnivneach) {
             bot.getLogger().debug("Adding pollnivneach");
             courses.add(PollnivneachRooftop);
         }
         coursesLoaded = true;
     }
 
-    private void loadCurrentCourse()
-    {
-        while(true) {
+    private void loadCurrentCourse() {
+        while (true) {
             getNearestCourse();
-            if(currentCourse!=null)
-            {
+            if (currentCourse != null) {
                 return;
             }
             Execution.delay(1000, 2000);
@@ -98,73 +88,63 @@ public class CourseList  {
         currentCourse.doNextObstacle();
     }
 
-    public boolean doingObstacle(){
+    public boolean doingObstacle() {
 
         return currentCourse.doingObstacle();
     }
 
-    private void getNearestCourse()
-    {
+    private void getNearestCourse() {
         Execution.delayUntil(() -> coursesLoaded, 1000);
         Player player = Players.getLocal();
-        if(player == null)
-        {
+        if (player == null) {
             return;
         }
         Course bestCourse = null;
         double bestDistance = 100000;
-        for(Course course : courses)
-        {
+        for (Course course : courses) {
             double distance = course.getDistanceFromCourse(player);
             bot.getLogger().debug("Distance = " + distance);
-            if(distance < bestDistance)
-            {
+            if (distance < bestDistance) {
                 bestCourse = course;
                 bestDistance = distance;
             }
         }
 
-        if(bestDistance < 50)
-        {
+        if (bestDistance < 50) {
             bot.getLogger().debug("We're close to a course already.");
             currentCourse = bestCourse;
             bot.guiData.currentArea = bestCourse.name;
             bot.getLogger().debug("Course name: " + bestCourse.name);
-        }
-        else
-        {
+        } else {
             getClosestLevelCourse();
             bot.getLogger().debug("Getting next course based on level.");
         }
     }
 
-    private void getClosestLevelCourse()
-    {
+    private void getClosestLevelCourse() {
         Execution.delayUntil(() -> coursesLoaded, 1000);
 
         bot.getLogger().debug("Checking to see if we're at the right course for our level.");
 
-        if(Skill.AGILITY.getCurrentLevel() > 80+ CustomPlayerSense.Key.OVERSTAY_LEVEL.getAsInteger() || courses.size() == 0)
-        {
+        if (Skill.AGILITY.getCurrentLevel() > 80 + CustomPlayerSense.Key.OVERSTAY_LEVEL.getAsInteger() || courses.size() == 0) {
             bot.getLogger().debug("Stopping bot!!!!!!!!!!!!!!!!!!");
-            Environment.getBot().stop("No relevant courses were selected");
+            var bot = Environment.getBot();
+            if (bot != null) {
+                bot.stop("No relevant courses were selected");
+            }
         }
 
         Course bestCourse = currentCourse;
         int maxLevel;
-        if(bestCourse != null) {
+        if (bestCourse != null) {
             maxLevel = bestCourse.minLevel;
-        }
-        else
-        {
+        } else {
             maxLevel = -1;
         }
         int level = Skill.AGILITY.getCurrentLevel();
-        for(Course course :courses)
-        {
-            if(level >= course.minLevel && course.minLevel > maxLevel)
-            {
-                maxLevel = course.minLevel ;
+        for (Course course : courses) {
+            if (level >= course.minLevel && course.minLevel > maxLevel) {
+                maxLevel = course.minLevel;
                 bestCourse = course;
             }
         }
@@ -172,15 +152,14 @@ public class CourseList  {
 
         currentCourse = bestCourse;
 
-        if(bestCourse != null)
+        if (bestCourse != null)
             bot.guiData.currentArea = bestCourse.name;
     }
 
-    public void checkCurrentCourse(){
+    public void checkCurrentCourse() {
 
         //lazy loading since otherwise can't find the nearest course
-        if(currentCourse == null)
-        {
+        if (currentCourse == null) {
             bot.getLogger().debug("Checking to see which course we're at right now.");
             loadCurrentCourse();
             return;
@@ -189,35 +168,32 @@ public class CourseList  {
         getClosestLevelCourse();
     }
 
-    public boolean isPlayerInSameArea(Locatable object)
-    {
+    public boolean isPlayerInSameArea(Locatable object) {
         return currentCourse.isPlayerInSameArea(object);
     }
 
-    public boolean isPlayerInFirstArea()
-    {
+    public boolean isPlayerInFirstArea() {
 
         return currentCourse.isPlayerInFirstArea();
     }
 
-    private Course getGnomeStronghold()
-    {
+    private Course getGnomeStronghold() {
         Obstacle logBalance = new Obstacle("Log balance", "Walk-across", Obstacle.ObstacleType.SLOW,
-        new Area.Polygonal(new Coordinate(2470, 3436, 0), new Coordinate(2472, 3439, 0), new Coordinate(2487, 3439, 0), new Coordinate(2488, 3437, 0), new Coordinate(2482, 3437, 0),new Coordinate(2482, 3436, 0)), new Area.Rectangular(new Coordinate(2474, 3435, 0), new Coordinate(2474, 3430, 0)),
+                new Area.Polygonal(new Coordinate(2470, 3436, 0), new Coordinate(2472, 3439, 0), new Coordinate(2487, 3439, 0), new Coordinate(2488, 3437, 0), new Coordinate(2482, 3437, 0), new Coordinate(2482, 3436, 0)), new Area.Rectangular(new Coordinate(2474, 3435, 0), new Coordinate(2474, 3430, 0)),
                 null, new Area.Rectangular(new Coordinate(2477, 3436, 0), new Coordinate(2471, 3437, 0)), new CustomCamera());
         Obstacle obstacleNet = new Obstacle("Obstacle net", "Climb-over", Obstacle.ObstacleType.INSTANT,
-        new Area.Rectangular(new Coordinate(2470, 3429, 0), new Coordinate(2477, 3426, 0)), null);
+                new Area.Rectangular(new Coordinate(2470, 3429, 0), new Coordinate(2477, 3426, 0)), null);
         Obstacle treeBranch = new Obstacle("Tree branch", "Climb", Obstacle.ObstacleType.INSTANT,
-        new Area.Rectangular(new Coordinate(2471, 3424, 1), new Coordinate(2476, 3422, 1)), null);
+                new Area.Rectangular(new Coordinate(2471, 3424, 1), new Coordinate(2476, 3422, 1)), null);
         Obstacle balancingRope = new Obstacle("Balancing rope", "Walk-on", Obstacle.ObstacleType.SLOW,
-        new Area.Rectangular(new Coordinate(2472, 3420, 2), new Coordinate(2477, 3419, 2)), new Area.Rectangular(new Coordinate(2478, 3420, 2), new Coordinate(2482, 3420, 2)),
-                null, new Area.Rectangular(new Coordinate(2477, 3419,2), new Coordinate(2476, 3420, 2)), new CustomCamera());
+                new Area.Rectangular(new Coordinate(2472, 3420, 2), new Coordinate(2477, 3419, 2)), new Area.Rectangular(new Coordinate(2478, 3420, 2), new Coordinate(2482, 3420, 2)),
+                null, new Area.Rectangular(new Coordinate(2477, 3419, 2), new Coordinate(2476, 3420, 2)), new CustomCamera());
         Obstacle treeBranch2 = new Obstacle("Tree branch", "Climb-down", Obstacle.ObstacleType.INSTANT,
-        new Area.Rectangular(new Coordinate(2483, 3420, 2), new Coordinate(2485, 3419, 2)), null);
+                new Area.Rectangular(new Coordinate(2483, 3420, 2), new Coordinate(2485, 3419, 2)), null);
         Obstacle obstacleNet2 = new Obstacle("Obstacle net", "Climb-over", Obstacle.ObstacleType.INSTANT,
-        new Area.Rectangular(new Coordinate(2489, 3420, 0), new Coordinate(2481, 3425, 0)), null);
+                new Area.Rectangular(new Coordinate(2489, 3420, 0), new Coordinate(2481, 3425, 0)), null);
         Obstacle obstaclePipe = new Obstacle("Obstacle pipe", "Squeeze-through", Obstacle.ObstacleType.SLOW,
-        new Area.Rectangular(new Coordinate(2482, 3427, 0), new Coordinate(2490, 3430, 0)), new Area.Rectangular(new Coordinate(2484, 3431, 0), new Coordinate(2488, 3436, 0)));
+                new Area.Rectangular(new Coordinate(2482, 3427, 0), new Coordinate(2490, 3430, 0)), new Area.Rectangular(new Coordinate(2484, 3431, 0), new Coordinate(2488, 3436, 0)));
 
 
         Area[] bankArea = {
@@ -233,42 +209,40 @@ public class CourseList  {
         return new Course("Gnome Stronghold", 1, logBalance, obstacleNet, treeBranch, balancingRope, treeBranch2, obstacleNet2, obstaclePipe);
     }
 
-    private Course getDraynorRooftop()
-    {
+    private Course getDraynorRooftop() {
 
         Obstacle roughWall = new Obstacle("Rough wall", "Climb", Obstacle.ObstacleType.INSTANT,
                 new Area.Rectangular(new Coordinate(3103, 3281, 0), new Coordinate(3106, 3268, 0)), null, null, new Area.Rectangular(new Coordinate(3103, 3281, 0), new Coordinate(3105, 3275, 0)), new CustomCamera(-1, 0));
         Obstacle tightRope = new Obstacle("Tightrope", "Cross", Obstacle.ObstacleType.SLOW,
-                        new Area.Rectangular(new Coordinate(3099, 3277, 3), new Coordinate(3102, 3281, 3)),
-                        new Area.Rectangular(new Coordinate(3098, 3277, 3), new Coordinate(3090, 3277, 3)));
+                new Area.Rectangular(new Coordinate(3099, 3277, 3), new Coordinate(3102, 3281, 3)),
+                new Area.Rectangular(new Coordinate(3098, 3277, 3), new Coordinate(3090, 3277, 3)));
         Obstacle tightRope2 = new Obstacle("Tightrope", "Cross", Obstacle.ObstacleType.SLOW,
-                        new Area.Polygonal(new Coordinate(3090, 3277, 3), new Coordinate(3088,3275,3), new Coordinate(3090,3273,3), new Coordinate(3091, 3276, 3), new Coordinate(3092, 3276, 3)),
-                        new Area.Rectangular(new Coordinate(3092, 3275, 3), new Coordinate(3092, 3267, 3)));
+                new Area.Polygonal(new Coordinate(3090, 3277, 3), new Coordinate(3088, 3275, 3), new Coordinate(3090, 3273, 3), new Coordinate(3091, 3276, 3), new Coordinate(3092, 3276, 3)),
+                new Area.Rectangular(new Coordinate(3092, 3275, 3), new Coordinate(3092, 3267, 3)));
 
-        Area narrowWallArea = getAbsoluteArea(new Area[] {
+        Area narrowWallArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3093, 3266, 3), new Coordinate(3091, 3265, 3)),
                 new Area.Rectangular(new Coordinate(3090, 3265, 3), new Coordinate(3089, 3265, 3))
         });
 
         Obstacle narrowWall = new Obstacle("Narrow wall", "Balance", Obstacle.ObstacleType.SLOW,
-                        narrowWallArea,
-                        new Area.Rectangular(new Coordinate(3089, 3264, 3), new Coordinate(3089, 3262, 3)));
+                narrowWallArea,
+                new Area.Rectangular(new Coordinate(3089, 3264, 3), new Coordinate(3089, 3262, 3)));
         Obstacle wall = new Obstacle("Wall", "Jump-up", Obstacle.ObstacleType.INSTANT,
-                        new Area.Rectangular(new Coordinate(3088, 3261, 3), new Coordinate(3088, 3257, 3)), null);
+                new Area.Rectangular(new Coordinate(3088, 3261, 3), new Coordinate(3088, 3257, 3)), null);
         Obstacle gap = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT,
-                        new Area.Rectangular(new Coordinate(3087, 3255, 3), new Coordinate(3094, 3255, 3)), null);
+                new Area.Rectangular(new Coordinate(3087, 3255, 3), new Coordinate(3094, 3255, 3)), null);
         Obstacle crate = new Obstacle("Crate", "Climb-down", Obstacle.ObstacleType.SLOW,
                 new Area.Rectangular(new Coordinate(3101, 3261, 3), new Coordinate(3096, 3256, 3)),
                 new Area.Absolute(new Coordinate(3102, 3261, 1)), null, new Area.Rectangular(new Coordinate(3099, 3261, 3), new Coordinate(3101, 3259, 3)), new CustomCamera());
 
         CustomBank bank = new CustomBank(bot, new Area.Rectangular(new Coordinate(3092, 3245, 0), new Coordinate(3093, 3241, 0)));
 
-        return new Course("Draynor Rooftop", 10,bank, roughWall, tightRope, tightRope2, narrowWall, wall, gap, crate);
+        return new Course("Draynor Rooftop", 10, bank, roughWall, tightRope, tightRope2, narrowWall, wall, gap, crate);
 
     }
 
-    private Course getAlKharidRooftop()
-    {
+    private Course getAlKharidRooftop() {
         Area[] roughWallArea = {
                 new Area.Rectangular(new Coordinate(3270, 3196, 0), new Coordinate(3277, 3195, 0)),
                 new Area.Rectangular(new Coordinate(3270, 3197, 0), new Coordinate(3284, 3199, 0)),
@@ -383,8 +357,7 @@ public class CourseList  {
         return new Course("Al Kharid Rooftop", 20, bank, roughWall, tightRope, cable, zipline, tropicalTree, roofTopBeams, tightRope2, gap);
     }
 
-    private Course getVarrockRooftop()
-    {
+    private Course getVarrockRooftop() {
 
         Area[] roughWallArea = {
                 new Area.Rectangular(new Coordinate(3221, 3419, 0), new Coordinate(3240, 3417, 0)),
@@ -401,7 +374,7 @@ public class CourseList  {
         Obstacle roughWall = new Obstacle("Rough wall", "Climb", Obstacle.ObstacleType.INSTANT,
                 getAbsoluteArea(roughWallArea), null, null, getAbsoluteArea(roughWallSafeArea), new CustomCamera(-1, 0));
 
-        Area.Absolute cLArea = getAbsoluteArea( new Area[]{
+        Area.Absolute cLArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3214, 3419, 3), new Coordinate(3214, 3410, 3)),
                 new Area.Rectangular(new Coordinate(3215, 3410, 3), new Coordinate(3217, 3410, 3)),
                 new Area.Rectangular(new Coordinate(3217, 3411, 3), new Coordinate(3219, 3411, 3)),
@@ -412,14 +385,14 @@ public class CourseList  {
                 new Area.Rectangular(new Coordinate(3213, 3414, 3), new Coordinate(3209, 3414, 3)),
                 null, new Area.Rectangular(new Coordinate(3214, 3418, 3), new Coordinate(3214, 3411, 3)), new CustomCamera());
 
-        Area.Absolute gapArea = getAbsoluteArea(new Area[] {
+        Area.Absolute gapArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3208, 3414, 3), new Coordinate(3203, 3414, 3)),
                 new Area.Rectangular(new Coordinate(3203, 3415, 3), new Coordinate(3202, 3415, 3)),
                 new Area.Rectangular(new Coordinate(3202, 3416, 3), new Coordinate(3201, 3416, 3)),
                 new Area.Rectangular(new Coordinate(3202, 3417, 3), new Coordinate(3201, 3417, 3))
         });
 
-        Area gapCloseArea = getAbsoluteArea (new Area[]{
+        Area gapCloseArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3214, 3418, 3), new Coordinate(3214, 3411, 3)),
                 new Area.Rectangular(new Coordinate(3202, 3417, 3), new Coordinate(3201, 3417, 3)),
                 new Area.Rectangular(new Coordinate(3202, 3416, 3), new Coordinate(3201, 3416, 3)),
@@ -430,13 +403,13 @@ public class CourseList  {
 
         Obstacle balanceWall = new Obstacle("Wall", "Balance", Obstacle.ObstacleType.SLOW,
                 new Area.Rectangular(new Coordinate(3197, 3416, 1), new Coordinate(3193, 3416, 1)),
-                        new Area.Rectangular(new Coordinate(3190, 3414, 1), new Coordinate(3190, 3407, 1)));
+                new Area.Rectangular(new Coordinate(3190, 3414, 1), new Coordinate(3190, 3407, 1)));
 
         Obstacle gap2 = new Obstacle("Gap", "Leap", Obstacle.ObstacleType.INSTANT,
                 new Area.Rectangular(new Coordinate(3192, 3406, 3), new Coordinate(3198, 3402, 3)), null,
                 null, new Area.Rectangular(new Coordinate(3197, 3402, 3), new Coordinate(3194, 3403, 3)), new CustomCamera(true));
 
-        Area.Absolute gapArea2 = getAbsoluteArea(new Area[] {
+        Area.Absolute gapArea2 = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3191, 3398, 3), new Coordinate(3202, 3395, 3)),
                 new Area.Rectangular(new Coordinate(3202, 3399, 3), new Coordinate(3202, 3403, 3)),
                 new Area.Rectangular(new Coordinate(3203, 3403, 3), new Coordinate(3208, 3403, 3)),
@@ -454,7 +427,7 @@ public class CourseList  {
         Obstacle gap3 = new Obstacle("Gap", "Leap", Obstacle.ObstacleType.INSTANT, gapArea2, null, gap3Coord,
                 getAbsoluteArea(gap3SafeArea), new CustomCamera());
 
-        Area gapArea4 = getAbsoluteArea(new Area[] {
+        Area gapArea4 = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3218, 3402, 3), new Coordinate(3218, 3393, 3)),
                 new Area.Rectangular(new Coordinate(3219, 3393, 3), new Coordinate(3221, 3393, 3)),
                 new Area.Rectangular(new Coordinate(3221, 3394, 3), new Coordinate(3225, 3394, 3)),
@@ -471,7 +444,7 @@ public class CourseList  {
         Obstacle ledge = new Obstacle("Ledge", "Hurdle", Obstacle.ObstacleType.INSTANT,
                 new Area.Rectangular(new Coordinate(3236, 3403, 3), new Coordinate(3240, 3408, 3)), null);
 
-        Area edgeArea = getAbsoluteArea(new Area[] {
+        Area edgeArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3236, 3415, 3), new Coordinate(3240, 3415, 3)),
                 new Area.Rectangular(new Coordinate(3240, 3414, 3), new Coordinate(3240, 3410, 3)),
                 new Area.Rectangular(new Coordinate(3239, 3410, 3), new Coordinate(3236, 3410, 3)),
@@ -488,17 +461,16 @@ public class CourseList  {
     }
 
 
-    private Course getCannifisRooftop()
-    {
-        Area tallTreeArea = getAbsoluteArea(new Area[] {
+    private Course getCannifisRooftop() {
+        Area tallTreeArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3511, 3485, 0), new Coordinate(3505, 3485, 0)),
                 new Area.Rectangular(new Coordinate(3508, 3486, 0), new Coordinate(3505, 3488, 0))
         });
 
         Obstacle tallTree = new Obstacle("Tall tree", "Climb", Obstacle.ObstacleType.SLOW,
-                tallTreeArea, new Area.Rectangular(new Coordinate(3507, 3489, 0), new Coordinate(3505, 3489, 0)), null,new Area.Rectangular(new Coordinate(3505, 3489, 0), new Coordinate(3508, 3487, 0)), new CustomCamera(0, 1));
+                tallTreeArea, new Area.Rectangular(new Coordinate(3507, 3489, 0), new Coordinate(3505, 3489, 0)), null, new Area.Rectangular(new Coordinate(3505, 3489, 0), new Coordinate(3508, 3487, 0)), new CustomCamera(0, 1));
 
-        Area gapArea = getAbsoluteArea(new Area[] {
+        Area gapArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3507, 3492, 2), new Coordinate(3506, 3497, 2)),
                 new Area.Rectangular(new Coordinate(3505, 3495, 2), new Coordinate(3505, 3497, 2)),
                 new Area.Rectangular(new Coordinate(3508, 3494, 2), new Coordinate(3508, 3497, 2)),
@@ -521,7 +493,7 @@ public class CourseList  {
         gap2.setStuckArea(new Area.Absolute(new Coordinate(3505, 3498, 2)),
                 new Area.Rectangular(new Coordinate(3503, 3504, 2), new Coordinate(3502, 3505, 2)));
 
-        Area gap3Area = getAbsoluteArea(new Area[] {
+        Area gap3Area = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3487, 3501, 2), new Coordinate(3491, 3499, 2)),
                 new Area.Rectangular(new Coordinate(3492, 3500, 2), new Coordinate(3492, 3504, 2)),
                 new Area.Rectangular(new Coordinate(3491, 3504, 2), new Coordinate(3490, 3502, 2)),
@@ -531,7 +503,7 @@ public class CourseList  {
         Obstacle gap3 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT,
                 gap3Area, null, new Coordinate(3485, 3499, 2), null, new CustomCamera());
 
-        Area gap4Area = getAbsoluteArea(new Area[] {
+        Area gap4Area = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3479, 3499, 3), new Coordinate(3478, 3492, 3)),
                 new Area.Rectangular(new Coordinate(3477, 3498, 3), new Coordinate(3475, 3492, 3))
         });
@@ -539,7 +511,7 @@ public class CourseList  {
         Obstacle gap4 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT,
                 gap4Area, null, new Coordinate(3478, 3491, 3), null, new CustomCamera());
 
-        Area vaultArea = getAbsoluteArea(new Area[] {
+        Area vaultArea = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3484, 3487, 2), new Coordinate(3477, 3485, 2)),
                 new Area.Rectangular(new Coordinate(3482, 3484, 2), new Coordinate(3477, 3484, 2)),
                 new Area.Rectangular(new Coordinate(3481, 3483, 2), new Coordinate(3481, 3481, 2)),
@@ -551,7 +523,7 @@ public class CourseList  {
                 vaultArea, null);
 
 
-        Area gap5Area = getAbsoluteArea( new Area[]{
+        Area gap5Area = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3489, 3476, 3), new Coordinate(3499, 3469, 3)),
                 new Area.Rectangular(new Coordinate(3500, 3476, 3), new Coordinate(3502, 3471, 3)),
                 new Area.Rectangular(new Coordinate(3503, 3476, 3), new Coordinate(3503, 3472, 3)),
@@ -560,13 +532,13 @@ public class CourseList  {
         });
 
         Obstacle gap5 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT,
-                gap5Area,  null, null, new Area.Rectangular(new Coordinate(3500, 3476, 3), new Coordinate(3503, 3472, 3)),
+                gap5Area, null, null, new Area.Rectangular(new Coordinate(3500, 3476, 3), new Coordinate(3503, 3472, 3)),
                 new CustomCamera());
 
         gap5.setStuckArea(new Area.Absolute(new Coordinate(3486, 3476, 3), new Coordinate(3487, 3476, 3)),
                 new Area.Rectangular(new Coordinate(3489, 3476, 3), new Coordinate(3490, 3473, 3)));
 
-        Area gap6Area = getAbsoluteArea(new Area[] {
+        Area gap6Area = getAbsoluteArea(new Area[]{
                 new Area.Rectangular(new Coordinate(3510, 3475, 2), new Coordinate(3511, 3482, 2)),
                 new Area.Rectangular(new Coordinate(3509, 3479, 2), new Coordinate(3509, 3481, 2)),
                 new Area.Rectangular(new Coordinate(3512, 3482, 2), new Coordinate(3515, 3477, 2)),
@@ -578,12 +550,11 @@ public class CourseList  {
 
         CustomBank bank = new CustomBank(bot, new Area.Rectangular(new Coordinate(3511, 3482, 0), new Coordinate(3512, 3478, 0)));
 
-        return new Course("Canifis Rooftop",40, bank, tallTree, gap, gap2, gap3, gap4, vault, gap5, gap6);
+        return new Course("Canifis Rooftop", 40, bank, tallTree, gap, gap2, gap3, gap4, vault, gap5, gap6);
 
     }
 
-    private Course getSeersRooftop()
-    {
+    private Course getSeersRooftop() {
 
         Area[] wallArea = {
                 new Area.Rectangular(new Coordinate(2728, 3489, 0), new Coordinate(2730, 3487, 0)),
@@ -617,7 +588,7 @@ public class CourseList  {
                 new Area.Rectangular(new Coordinate(2711, 3481, 2), new Coordinate(2715, 3481, 2))
         };
 
-        Obstacle gap2 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT, getAbsoluteArea(gap2Area), null );
+        Obstacle gap2 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT, getAbsoluteArea(gap2Area), null);
 
         Area[] gap3Area = {
                 new Area.Rectangular(new Coordinate(2716, 3471, 3), new Coordinate(2713, 3471, 3)),
@@ -625,7 +596,7 @@ public class CourseList  {
                 new Area.Rectangular(new Coordinate(2704, 3476, 3), new Coordinate(2700, 3470, 3))
         };
 
-        Obstacle gap3 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT, getAbsoluteArea(gap3Area) , null,
+        Obstacle gap3 = new Obstacle("Gap", "Jump", Obstacle.ObstacleType.INSTANT, getAbsoluteArea(gap3Area), null,
                 new Coordinate(2700, 3469, 3), null, new CustomCamera());
 
         Obstacle edge = new Obstacle("Edge", "Jump", Obstacle.ObstacleType.INSTANT,
@@ -637,8 +608,7 @@ public class CourseList  {
         return new Course("Seers Rooftop", 60, bank, wall, gap, tightRope, gap2, gap3, edge);
     }
 
-    private Course getPollnivneachRooftop()
-    {
+    private Course getPollnivneachRooftop() {
         Area[] basketArea = {
                 new Area.Rectangular(new Coordinate(3345, 2962, 0), new Coordinate(3352, 2957, 0)),
                 new Area.Rectangular(new Coordinate(3353, 2961, 0), new Coordinate(3354, 2962, 0)),
@@ -658,7 +628,7 @@ public class CourseList  {
         Obstacle marketStall = new Obstacle("Market stall", "Jump-on", Obstacle.ObstacleType.SLOW,
                 new Area.Rectangular(new Coordinate(3346, 2968, 1), new Coordinate(3351, 2964, 1)),
                 new Area.Rectangular(new Coordinate(3351, 2974, 2), new Coordinate(3348, 2969, 2)), null, new Area.Rectangular(new Coordinate(3348, 2968, 1), new Coordinate(3351, 2967, 1)),
-                        new CustomCamera());
+                new CustomCamera());
 
         Obstacle banner = new Obstacle("Banner", "Grab", Obstacle.ObstacleType.SLOW,
                 new Area.Rectangular(new Coordinate(3352, 2976, 1), new Coordinate(3355, 2973, 1)),
@@ -727,18 +697,15 @@ public class CourseList  {
     }
 
 
-    private Area.Absolute getAbsoluteArea(Area[] areas)
-    {
+    private Area.Absolute getAbsoluteArea(Area[] areas) {
         ArrayList<Coordinate> coordList = new ArrayList<>();
-        for(Area area : areas)
-        {
+        for (Area area : areas) {
             coordList.addAll(area.getCoordinates());
         }
         return new Area.Absolute(coordList);
     }
 
-    public Course getCurrentCourse()
-    {
+    public Course getCurrentCourse() {
         return currentCourse;
     }
 }

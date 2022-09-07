@@ -2,7 +2,6 @@ package com.SmartAgility.UI;
 
 import com.SmartAgility.Helpers.CustomPlayerSense;
 import com.SmartAgility.SmartAgility;
-import com.runemate.game.api.hybrid.player_sense.PlayerSense;
 import com.runemate.game.api.hybrid.util.Resources;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,12 +15,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.ResourceBundle;
 
 /**
  * Java FX Controller for the SuicideCowsFXUI class
@@ -32,9 +28,8 @@ import java.util.concurrent.ExecutionException;
  * NOTE:   You can assign a single class to be the FXML Loader And Controller.
  * To do this, just set your FXML's loader to .setController(this) in appropriate class.
  */
-public class SmartAgilityFXUIController implements Initializable
-{
-    private SmartAgility bot;
+public class SmartAgilityFXUIController implements Initializable {
+    private final SmartAgility bot;
 
     @FXML
     private Button StartButton;
@@ -57,8 +52,7 @@ public class SmartAgilityFXUIController implements Initializable
     @FXML
     private AnchorPane StartPane;
 
-    public SmartAgilityFXUIController(SmartAgility bot)
-    {
+    public SmartAgilityFXUIController(SmartAgility bot) {
         this.bot = bot;
     }
 
@@ -88,15 +82,13 @@ public class SmartAgilityFXUIController implements Initializable
 
         PotionType.setItems(potionOptions);
 
-        for(int i=0; i<7; i++)
-        {
-            FoodAmount.getItems().add(i+"");
+        for (int i = 0; i < 7; i++) {
+            FoodAmount.getItems().add(i + "");
             PotionAmount.getItems().add(i + "");
         }
 
-        for(int i=5; i<20; i++)
-        {
-            EatFoodHealth.getItems().add(i+"");
+        for (int i = 5; i < 20; i++) {
+            EatFoodHealth.getItems().add(i + "");
         }
 
         FoodType.getSelectionModel().selectFirst();
@@ -115,8 +107,7 @@ public class SmartAgilityFXUIController implements Initializable
         StartPane.getChildren().add(logoView);
     }
 
-    public EventHandler<ActionEvent> StartButton()
-    {
+    public EventHandler<ActionEvent> StartButton() {
         return event ->
         {
             //options
@@ -153,32 +144,24 @@ public class SmartAgilityFXUIController implements Initializable
             bot.loadCourses();
 
             // Set the EmbeddableUI property to reflect your Info GUI
-            Platform.runLater(() -> bot.setToInfoProperty());
+            Platform.runLater(bot::setToInfoProperty);
 
         };
     }
 
-    public EventHandler<ActionEvent> NextStep()
-    {
-        return event -> {
-            Steps.getSelectionModel().selectNext();
-        };
+    public EventHandler<ActionEvent> NextStep() {
+        return event -> Steps.getSelectionModel().selectNext();
     }
 
-    public EventHandler<ActionEvent> PreviousStep()
-    {
-        return event -> {
-            Steps.getSelectionModel().selectPrevious();
-        };
+    public EventHandler<ActionEvent> PreviousStep() {
+        return event -> Steps.getSelectionModel().selectPrevious();
     }
 
-    private int getInteger(TextField input)
-    {
+    private int getInteger(TextField input) {
         return Integer.parseInt(input.getCharacters().toString());
     }
 
-    private String getString(TextField input)
-    {
+    private String getString(TextField input) {
         return input.getCharacters().toString();
     }
 }

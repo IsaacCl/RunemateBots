@@ -1,6 +1,5 @@
 package com.SmartAgility.Branches;
 
-import com.SmartAgility.Leaves.EmptyLeaf;
 import com.SmartAgility.Leaves.NextObstacle;
 import com.SmartAgility.Leaves.WaitTilStill;
 import com.SmartAgility.SmartAgility;
@@ -10,11 +9,14 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class ObstacleBranch extends BranchTask {
 
-    private NextObstacle nextObstacle = new NextObstacle();
-    private WaitTilStill waitTilStill = new WaitTilStill();
+    private final NextObstacle nextObstacle = new NextObstacle();
+    private final WaitTilStill waitTilStill = new WaitTilStill();
 
-    private SmartAgility bot;
-    public ObstacleBranch() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public ObstacleBranch() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {

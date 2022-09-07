@@ -24,32 +24,21 @@ import static java.lang.Math.abs;
 
 public class Obstacle {
 
-    private String name;
-    private String action;
-    private Area startingArea;
-    private Area traversingArea;
-    private Area location;
+    final AbstractBot bot;
+    private final String name;
+    private final String action;
+    private final Area startingArea;
+    private final Area traversingArea;
+    private final Area location;
+    private final CustomCamera camera;
+    private final ObstacleType type;
     private Area closeArea;
-
     private Area stuckArea;
     private Area fixArea;
-
-    private CustomCamera camera;
-
     private int stuckTimes = 0;
     private int failTimes = 0;
 
-    AbstractBot bot;
-
-
-    enum ObstacleType{
-        INSTANT,
-        SLOW
-    }
-    private ObstacleType type;
-
-    Obstacle(String name, String action, ObstacleType obstacleType, Area startingArea, Area traversingArea)
-    {
+    Obstacle(String name, String action, ObstacleType obstacleType, Area startingArea, Area traversingArea) {
         this.name = name;
         this.action = action;
         this.startingArea = startingArea;
@@ -60,18 +49,15 @@ public class Obstacle {
         this.bot = Environment.getBot();
     }
 
-    Obstacle(String name, String action, ObstacleType obstacleType, Area startingArea, Area traversingArea, Coordinate location, Area closeArea, CustomCamera camera)
-    {
+    Obstacle(String name, String action, ObstacleType obstacleType, Area startingArea, Area traversingArea, Coordinate location, Area closeArea, CustomCamera camera) {
         this.name = name;
         this.action = action;
         this.startingArea = startingArea;
         this.traversingArea = traversingArea;
         this.type = obstacleType;
-        if(location != null) {
+        if (location != null) {
             this.location = new Area.Absolute(location);
-        }
-        else
-        {
+        } else {
             this.location = null;
         }
         this.closeArea = closeArea;
@@ -79,177 +65,145 @@ public class Obstacle {
         this.bot = Environment.getBot();
     }
 
-    public void doObstacle(Obstacle nextObstacle)
-    {
+    public void doObstacle(Obstacle nextObstacle) {
         stuckTimes = 0;
 
         bot.getLogger().debug("Doing obstacle: " + name);
 
         GameObject obstacle;
 
-        if(location != null)
-        {
+        if (location != null) {
             obstacle = GameObjects.newQuery().names(name).actions(action).within(location).results().nearest();
-        }
-        else
-        {
+        } else {
             obstacle = GameObjects.newQuery().names(name).actions(action).results().nearest();
         }
 
         Player localPlayer = Players.getLocal();
 
-        if(obstacle != null && localPlayer != null) {
+        if (obstacle != null && localPlayer != null) {
 
-            if(stuckArea != null && stuckArea.contains(localPlayer))
-            {
+            if (stuckArea != null && stuckArea.contains(localPlayer)) {
                 bot.getLogger().debug("We're stuck. Fixing");
                 fixArea.interact("Walk here");
             }
 
-            if(!obstacle.isVisible() || failTimes > 5)
-            {
+            if (!obstacle.isVisible() || failTimes > 5) {
                 camera.concurrentlyTurnTo(obstacle);
                 bot.getLogger().debug("Turning to face target with custom camera!");
                 Execution.delay(200, 500);
             }
 
-            if((!obstacle.isVisible() || (failTimes > 10 && failTimes%5==1)) && closeArea != null)
-            {
+            if ((!obstacle.isVisible() || (failTimes > 10 && failTimes % 5 == 1)) && closeArea != null) {
                 RegionPath path = RegionPath.buildTo(closeArea.getRandomCoordinate());
-                if(path != null) {
+                if (path != null) {
                     path.step();
                     bot.getLogger().debug("Found path to safe zone.");
                 }
             }
 
-            if(obstacle.interact(action))
-            {
+            if (obstacle.interact(action)) {
                 failTimes = 0;
 
-                Execution.delayUntil(localPlayer::isMoving,1000);
+                Execution.delayUntil(localPlayer::isMoving, 1000);
 
-                if(!localPlayer.isMoving())
+                if (!localPlayer.isMoving())
                     return;
 
-                if(nextObstacle != null) {
-                    if(Random.nextDouble(0, 1) < 0.8)
+                if (nextObstacle != null) {
+                    if (Random.nextDouble(0, 1) < 0.8)
                         turnToNextObstacle(nextObstacle);
                 }
 
                 //Not sure if this is the right call because could misfire with regards to misclicks, but prevents clicking too much
-                Execution.delayUntil(() ->!localPlayer.isMoving() && !startingArea.contains(localPlayer), 8000);
+                Execution.delayUntil(() -> !localPlayer.isMoving() && !startingArea.contains(localPlayer), 8000);
 
                 bot.getLogger().debug("Bot is moving: " + localPlayer.isMoving() + " and starting area contains bot: " + startingArea.contains(localPlayer));
 
-            }
-            else
-            {
+            } else {
                 failTimes++;
                 bot.getLogger().debug("Failing!");
-                if(failTimes > 50)
-                {
+                if (failTimes > 50) {
                     bot.stop("Failed more than 50 times!");
                 }
             }
-        }
-        else
-        {
+        } else {
             bot.getLogger().debug("We're in the area but object is not found!");
         }
 
     }
 
-    public boolean readyToStart()
-    {
+    public boolean readyToStart() {
         Player localPlayer = Players.getLocal();
 
         return startingArea.contains(localPlayer);
     }
 
-    public boolean completingAction()
-    {
+    public boolean completingAction() {
         Player localPlayer = Players.getLocal();
 
         return type == ObstacleType.SLOW && traversingArea.contains(localPlayer);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public Area getStartingArea()
-    {
+    public Area getStartingArea() {
         return startingArea;
     }
 
-    public double getDistanceFromObject(Locatable object)
-    {
-        if(object!=null) {
+    public double getDistanceFromObject(Locatable object) {
+        if (object != null) {
             Coordinate pos = object.getPosition();
             if (pos != null) {
                 return pos.distanceTo(startingArea) + (1000 * abs(pos.getPlane() - startingArea.getCenter().getPlane()));
             } else {
                 return 100000;
             }
-        }
-        else
-        {
+        } else {
             return 100000;
         }
     }
 
-    public void walkToObstacle()
-    {
-        if(stuckArea != null)
-        {
-            if(stuckArea.contains(Players.getLocal())) {
+    public void walkToObstacle() {
+        if (stuckArea != null) {
+            if (stuckArea.contains(Players.getLocal())) {
                 Coordinate randCoord = fixArea.getRandomCoordinate();
                 bot.getLogger().debug("We're stuck. Clicking " + randCoord);
-                if(!randCoord.isVisible())
+                if (!randCoord.isVisible())
                     Camera.turnTo(randCoord);
                 randCoord.interact("Walk here");
             }
         }
 
-        WebPath path;
-        if(closeArea != null)
-        {
-            path = Traversal.getDefaultWeb().getPathBuilder().buildTo(closeArea.getRandomCoordinate());
-        }
-        else
-        {
-            path = Traversal.getDefaultWeb().getPathBuilder().buildTo(startingArea.getRandomCoordinate());
+        var web = Traversal.getDefaultWeb();
+        WebPath path = null;
+        if (web != null) {
+            if (closeArea != null) {
+                path = web.getPathBuilder().buildTo(closeArea.getRandomCoordinate());
+            } else {
+                path = web.getPathBuilder().buildTo(startingArea.getRandomCoordinate());
+            }
         }
 
         Player localPlayer = Players.getLocal();
 
-        if(path != null && localPlayer != null)
-        {
-            if(path.step())
-            {
+        if (path != null && localPlayer != null) {
+            if (path.step()) {
                 bot.getLogger().debug("Stepping towards area!");
-                Execution.delayUntil(()->!localPlayer.isMoving(), 500);
+                Execution.delayUntil(() -> !localPlayer.isMoving(), 500);
                 stuckTimes = 0;
             }
-        }
-        else if(localPlayer != null)
-        {
+        } else if (localPlayer != null) {
             RegionPath path2 = RegionPath.buildTo(startingArea);
-            if(path2!=null) {
-                if(path2.step());
-                {
-                    bot.getLogger().debug("Stepping towards area 2!");
-                    Execution.delayUntil(()->!localPlayer.isMoving(), 500);
-                    stuckTimes = 0;
-                }
-            }
-            else
-            {
+            if (path2 != null && path2.step()) {
+                bot.getLogger().debug("Stepping towards area 2!");
+                Execution.delayUntil(() -> !localPlayer.isMoving(), 500);
+                stuckTimes = 0;
+            } else {
 
                 bot.getLogger().debug("We're stuck boss!");
-                if(stuckTimes > 10)
-                {
+                if (stuckTimes > 10) {
                     bot.stop("Can't find exit");
                 }
                 stuckTimes++;
@@ -258,29 +212,24 @@ public class Obstacle {
     }
 
     //This only occurs on cannifis so far, weird bug
-    public void setStuckArea(Area stuckArea, Area fixArea)
-    {
+    public void setStuckArea(Area stuckArea, Area fixArea) {
         this.stuckArea = stuckArea;
         this.fixArea = fixArea;
     }
 
-    public Area getCloseArea()
-    {
+    public Area getCloseArea() {
         return closeArea;
     }
 
-    public Area getLocation()
-    {
+    public Area getLocation() {
         return location;
     }
 
-    private void turnToNextObstacle(Obstacle nextObstacle)
-    {
+    private void turnToNextObstacle(Obstacle nextObstacle) {
         Timer timer = new Timer();
         Area nextLocation = nextObstacle.getLocation();
         Area nextCloseArea = nextObstacle.getCloseArea();
-        if(nextLocation != null)
-        {
+        if (nextLocation != null) {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -305,6 +254,10 @@ public class Obstacle {
         }
     }
 
+    enum ObstacleType {
+        INSTANT,
+        SLOW
+    }
 
 
 }

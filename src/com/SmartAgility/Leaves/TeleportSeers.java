@@ -10,14 +10,14 @@ import com.runemate.game.api.script.Execution;
 import com.runemate.game.api.script.framework.tree.LeafTask;
 
 public class TeleportSeers extends LeafTask {
-    private Area teleportArea = new Area.Rectangular(new Coordinate(2704, 3465, 0), new Coordinate(2708, 3459, 0));
+    private final Area teleportArea = new Area.Rectangular(new Coordinate(2704, 3465, 0), new Coordinate(2708, 3459, 0));
 
-    private SmartAgility bot;
+    private final SmartAgility bot;
 
     public TeleportSeers() {
         bot = (SmartAgility) Environment.getBot();
     }
-    
+
     @Override
     public void execute() {
         if (Magic.CAMELOT_TELEPORT.activate("Cast")) {

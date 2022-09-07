@@ -6,8 +6,11 @@ import com.runemate.game.api.script.framework.tree.LeafTask;
 
 public class EatFood extends LeafTask {
 
-    private SmartAgility bot;
-    public EatFood() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public EatFood() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
 
     @Override

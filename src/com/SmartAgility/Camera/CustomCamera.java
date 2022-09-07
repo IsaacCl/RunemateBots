@@ -6,11 +6,10 @@ import com.runemate.game.api.hybrid.util.calculations.Random;
 
 public class CustomCamera {
 
+    private final boolean lookHigh;
+    private final double highNum = Random.nextDouble(0.8, 1);
     private int xOffset;
     private int yOffset;
-    private boolean lookHigh;
-
-    private double highNum = Random.nextDouble(0.8, 1);
 
     public CustomCamera(int xOffset, int yOffset) {
         this.xOffset = xOffset;

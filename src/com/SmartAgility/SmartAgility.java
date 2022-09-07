@@ -1,11 +1,11 @@
 package com.SmartAgility;
 
 import com.SmartAgility.Branches.RootBranch;
+import com.SmartAgility.Fatigue.FatigueHandler;
 import com.SmartAgility.Game.CourseList;
 import com.SmartAgility.Game.GroundManager;
 import com.SmartAgility.Game.InventoryManager;
 import com.SmartAgility.Game.PlayerManager;
-import com.SmartAgility.Fatigue.FatigueHandler;
 import com.SmartAgility.Helpers.CustomPlayerSense;
 import com.SmartAgility.UI.GUIData;
 import com.SmartAgility.UI.SmartAgilityFXUI;
@@ -28,20 +28,17 @@ import java.util.TimerTask;
 
 public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryListener, SkillListener {
 
+    public final GUIData guiData = new GUIData();
+    private final Timer timer = new Timer();
     public CourseList courseList;
     public FatigueHandler fatigueHandler;
     public GroundManager groundManager;
     public InventoryManager inventoryManager;
     public PlayerManager playerManager;
-    public GUIData guiData = new GUIData();
-
-    private Timer timer = new Timer();
-
     private SimpleObjectProperty<Node> botInterfaceProperty;
     private SmartAgilityInfoUI infoUI;
 
-    public SmartAgility()
-    {
+    public SmartAgility() {
         setEmbeddableUI(this);
     }
 
@@ -51,10 +48,8 @@ public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryList
     }
 
     @Override
-    public void onStart(String... args)
-    {
-        if(CustomPlayerSense.Key.VERSION_NUM.getAsInteger() == null || CustomPlayerSense.Key.VERSION_NUM.getAsInteger() < 6)
-        {
+    public void onStart(String... args) {
+        if (CustomPlayerSense.Key.VERSION_NUM.getAsInteger() == null || CustomPlayerSense.Key.VERSION_NUM.getAsInteger() < 6) {
             CustomPlayerSense.clearKeys();
             getLogger().debug("Reinitialising keys!");
         }
@@ -73,8 +68,7 @@ public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryList
         //Mouse.setPathGenerator(Mouse.MLP_PATH_GENERATOR);
     }
 
-    public void loadCourses()
-    {
+    public void loadCourses() {
         courseList.loadCourses();
     }
 
@@ -86,10 +80,8 @@ public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryList
     }
 
     @Override
-    public ObjectProperty<? extends Node> botInterfaceProperty()
-    {
-        if (botInterfaceProperty == null)
-        {
+    public ObjectProperty<? extends Node> botInterfaceProperty() {
+        if (botInterfaceProperty == null) {
             botInterfaceProperty = new SimpleObjectProperty<>(new SmartAgilityFXUI(this));
             infoUI = new SmartAgilityInfoUI(this);
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -102,13 +94,11 @@ public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryList
         return botInterfaceProperty;
     }
 
-    public void setToInfoProperty()
-    {
+    public void setToInfoProperty() {
         botInterfaceProperty.set(infoUI);
     }
 
-    public void updateInfo()
-    {
+    public void updateInfo() {
         Platform.runLater(() -> infoUI.update());
     }
 
@@ -119,35 +109,29 @@ public class SmartAgility extends TreeBot implements EmbeddableUI, InventoryList
     }
 
     @Override
-    public void onItemAdded(ItemEvent itemEvent)
-    {
-        if(guiData.GUIWait || isPaused()) {
+    public void onItemAdded(ItemEvent itemEvent) {
+        if (guiData.GUIWait || isPaused()) {
             return;
         }
         ItemDefinition itemDef = itemEvent.getItem().getDefinition();
-        if(itemDef == null)
-        {
+        if (itemDef == null) {
             return;
         }
         String itemName = itemDef.getName();
-        if (itemName != null && itemName.equals("Mark of grace"))
-        {
+        if (itemName.equals("Mark of grace")) {
             guiData.marks++;
         }
     }
 
     @Override
     public void onExperienceGained(SkillEvent event) {
-        if(guiData.GUIWait || isPaused())
+        if (guiData.GUIWait || isPaused())
             return;
 
-        try
-        {
+        try {
             guiData.experienceGained += event.getChange();
 
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             getLogger().warn(e);
         }
     }

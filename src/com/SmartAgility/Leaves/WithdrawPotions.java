@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 
 public class WithdrawPotions extends LeafTask {
 
-    private SmartAgility bot;
+    private final SmartAgility bot;
+
     public WithdrawPotions() {
         bot = (SmartAgility) Environment.getBot();
     }
@@ -22,24 +23,21 @@ public class WithdrawPotions extends LeafTask {
         bot.guiData.currentTask = "Withdrawing potions.";
 
 
-        if(!Bank.isOpen())
-        {
+        if (!Bank.isOpen()) {
             Bank.open();
-        }
-        else {
+        } else {
             int numVials = Inventory.newQuery().names("Vial").results().size();
 
-            if(numVials > 0)
-            {
+            if (numVials > 0) {
                 Bank.deposit("Vial", numVials);
                 return;
             }
 
             Pattern potionPattern = Pattern.compile(bot.guiData.PotionType + ".*");
 
-            SpriteItem potion =  Bank.newQuery().names(potionPattern).results().random();
+            SpriteItem potion = Bank.newQuery().names(potionPattern).results().random();
 
-            if(potion!=null)
+            if (potion != null)
                 Bank.withdraw(potion, bot.guiData.PotionAmount);
             else
                 CustomBank.HasPotion = false;

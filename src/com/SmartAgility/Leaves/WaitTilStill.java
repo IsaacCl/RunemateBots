@@ -9,8 +9,8 @@ public class WaitTilStill extends LeafTask {
     @Override
     public void execute() {
         Player localPlayer = Players.getLocal();
-        if(localPlayer != null) {
-            Execution.delayUntil(()->!localPlayer.isMoving(), 2000);
+        if (localPlayer != null) {
+            Execution.delayUntil(() -> !localPlayer.isMoving(), 2000);
         }
     }
 }

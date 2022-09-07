@@ -1,7 +1,6 @@
 package com.SmartAgility.Branches;
 
 import com.SmartAgility.Game.CustomBank;
-import com.SmartAgility.Leaves.EatFood;
 import com.SmartAgility.Leaves.WithdrawFood;
 import com.SmartAgility.SmartAgility;
 import com.runemate.game.api.hybrid.Environment;
@@ -10,11 +9,13 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class NeedFoodBranch extends BranchTask {
 
-    private SmartAgility bot;
-    public NeedFoodBranch() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+    private final NeedPotionsBranch needPotionsBranch = new NeedPotionsBranch();
+    private final WithdrawFood withdrawFood = new WithdrawFood();
 
-    private NeedPotionsBranch needPotionsBranch = new NeedPotionsBranch();
-    private WithdrawFood withdrawFood = new WithdrawFood();
+    public NeedFoodBranch() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {

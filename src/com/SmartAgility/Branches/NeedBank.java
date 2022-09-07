@@ -8,23 +8,22 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class NeedBank extends BranchTask {
 
-    private SmartAgility bot;
-    public NeedBank() { bot = (SmartAgility) Environment.getBot(); }
-
-    private AtBank atBank = new AtBank();
-    private CanTeleport canTeleport = new CanTeleport();
-
+    private final SmartAgility bot;
+    private final AtBank atBank = new AtBank();
+    private final CanTeleport canTeleport = new CanTeleport();
     private boolean banking = false;
+
+    public NeedBank() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {
-        if(bot.courseList.getCurrentCourse().hasBank()) {
+        if (bot.courseList.getCurrentCourse().hasBank()) {
             return (banking || bot.courseList.isPlayerInFirstArea() || bot.courseList.getCurrentCourse().getBank().atBank())
                     && ((bot.inventoryManager.needEnergyDrinks() && CustomBank.HasPotion)
                     || (bot.inventoryManager.needFood() && CustomBank.HasFood));
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

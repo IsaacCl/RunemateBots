@@ -8,12 +8,15 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class BreakBranch extends BranchTask {
 
-    private TakeABreak takeABreak = new TakeABreak();
+    private final TakeABreak takeABreak = new TakeABreak();
 
-    private ChangeCourseBranch changeCourseBranch = new ChangeCourseBranch();
+    private final ChangeCourseBranch changeCourseBranch = new ChangeCourseBranch();
 
-    private SmartAgility bot;
-    public BreakBranch() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public BreakBranch() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public boolean validate() {

@@ -12,30 +12,26 @@ import java.util.Arrays;
 
 public class Course {
 
-    private ArrayList<Obstacle> obstacleList = new ArrayList<>();
-    int minLevel;
-    String name = "";
-
-    private AbstractBot bot;
-
+    final int minLevel;
+    private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
+    private final AbstractBot bot;
+    String name;
     private CustomBank bank;
 
-    Course(String name, int minLevel, Obstacle... obstacles)
-    {
+    Course(String name, int minLevel, Obstacle... obstacles) {
         this.name = name;
         this.minLevel = minLevel;
-        if(obstacles != null) {
+        if (obstacles != null) {
             obstacleList.addAll(Arrays.asList(obstacles));
         }
 
         this.bot = Environment.getBot();
     }
 
-    Course(String name, int minLevel, CustomBank bank, Obstacle... obstacles)
-    {
+    Course(String name, int minLevel, CustomBank bank, Obstacle... obstacles) {
         this.name = name;
         this.minLevel = minLevel;
-        if(obstacles != null) {
+        if (obstacles != null) {
             obstacleList.addAll(Arrays.asList(obstacles));
         }
 
@@ -43,19 +39,14 @@ public class Course {
         this.bank = bank;
     }
 
-    public void doNextObstacle()
-    {
-        for(int i=0; i<obstacleList.size(); i++)
-        {
-            if(obstacleList.get(i).readyToStart())
-            {
-                if(i < obstacleList.size() - 2)
-                    obstacleList.get(i).doObstacle(obstacleList.get(i+2));
-                else if(i == obstacleList.size() - 2)
-                {
-                    obstacleList.get(i).doObstacle(obstacleList.get(i+1));
-                } else
-                {
+    public void doNextObstacle() {
+        for (int i = 0; i < obstacleList.size(); i++) {
+            if (obstacleList.get(i).readyToStart()) {
+                if (i < obstacleList.size() - 2)
+                    obstacleList.get(i).doObstacle(obstacleList.get(i + 2));
+                else if (i == obstacleList.size() - 2) {
+                    obstacleList.get(i).doObstacle(obstacleList.get(i + 1));
+                } else {
                     obstacleList.get(i).doObstacle(obstacleList.get(0));
                 }
                 return;
@@ -67,18 +58,15 @@ public class Course {
         returnToNearestObstacle();
     }
 
-    private Obstacle getNearestObstacleTo(Locatable object)
-    {
+    private Obstacle getNearestObstacleTo(Locatable object) {
         Obstacle bestObstacle = obstacleList.get(0);
         double shortestDistance = bestObstacle.getDistanceFromObject(object);
-        for(Obstacle obstacle : obstacleList) {
-            if(obstacle.getStartingArea().contains(object))
-            {
+        for (Obstacle obstacle : obstacleList) {
+            if (obstacle.getStartingArea().contains(object)) {
                 return obstacle;
             }
             double distance = obstacle.getDistanceFromObject(object);
-            if(distance < shortestDistance)
-            {
+            if (distance < shortestDistance) {
                 shortestDistance = distance;
                 bestObstacle = obstacle;
                 bot.getLogger().debug("Nearest obstacle " + bestObstacle.getName() + " at distance " + shortestDistance);
@@ -88,15 +76,13 @@ public class Course {
         return bestObstacle;
     }
 
-    private void returnToNearestObstacle()
-    {
+    private void returnToNearestObstacle() {
         Player localPlayer = Players.getLocal();
         Obstacle bestObstacle = getNearestObstacleTo(localPlayer);
         bestObstacle.walkToObstacle();
     }
 
-    public boolean isPlayerInSameArea(Locatable object)
-    {
+    public boolean isPlayerInSameArea(Locatable object) {
         Player localPlayer = Players.getLocal();
         Obstacle playerObstacle = getNearestObstacleTo(localPlayer);
         bot.getLogger().debug("Player is at obstacle" + playerObstacle.getName());
@@ -105,12 +91,9 @@ public class Course {
         return playerObstacle == objectObstacle;
     }
 
-    public boolean doingObstacle()
-    {
-        for(Obstacle obstacle : obstacleList)
-        {
-            if(obstacle.completingAction())
-            {
+    public boolean doingObstacle() {
+        for (Obstacle obstacle : obstacleList) {
+            if (obstacle.completingAction()) {
                 bot.getLogger().debug("Already completing action: " + obstacle.getName());
                 return true;
             }
@@ -127,13 +110,11 @@ public class Course {
         return obstacle.getDistanceFromObject(object);
     }
 
-    public CustomBank getBank()
-    {
+    public CustomBank getBank() {
         return bank;
     }
 
-    public boolean hasBank()
-    {
+    public boolean hasBank() {
         return bank != null;
     }
 }

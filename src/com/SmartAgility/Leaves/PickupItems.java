@@ -6,8 +6,11 @@ import com.runemate.game.api.script.framework.tree.LeafTask;
 
 public class PickupItems extends LeafTask {
 
-    private SmartAgility bot;
-    public PickupItems() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public PickupItems() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public void execute() {

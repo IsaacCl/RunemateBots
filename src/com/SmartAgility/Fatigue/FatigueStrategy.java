@@ -6,13 +6,12 @@ public enum FatigueStrategy {
     MEDIUM(6, 10, 40, 70),
     LONG(10, 20, 70, 100);
 
-    public int minBreakTime;
-    public int maxBreakTime;
-    public int minIntraBreakTime;
-    public int maxIntraBreakTime;
+    public final int minBreakTime;
+    public final int maxBreakTime;
+    public final int minIntraBreakTime;
+    public final int maxIntraBreakTime;
 
-    FatigueStrategy(int minBreakTime, int maxBreakTime, int minIntraBreakTime, int maxIntraBreakTime)
-    {
+    FatigueStrategy(int minBreakTime, int maxBreakTime, int minIntraBreakTime, int maxIntraBreakTime) {
         this.minBreakTime = minBreakTime;
         this.maxBreakTime = maxBreakTime;
         this.minIntraBreakTime = minIntraBreakTime;

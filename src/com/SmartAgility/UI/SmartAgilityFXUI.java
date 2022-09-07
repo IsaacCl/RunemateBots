@@ -16,17 +16,9 @@ import java.util.concurrent.Future;
 /**
  * Java FX Gui for configuring bot settings
  */
-public class SmartAgilityFXUI extends GridPane implements Initializable
-{
+public class SmartAgilityFXUI extends GridPane implements Initializable {
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1)
-    {
-        setVisible(true);
-    }
-
-    public SmartAgilityFXUI(SmartAgility bot)
-    {
+    public SmartAgilityFXUI(SmartAgility bot) {
         // Load the fxml file using RuneMate's resources class.
         FXMLLoader loader = new FXMLLoader();
 
@@ -41,14 +33,16 @@ public class SmartAgilityFXUI extends GridPane implements Initializable
         // NOTE: By setting the root to (this) you must change your .fxml to reflect fx:root
         loader.setRoot(this);
 
-        try
-        {
+        try {
             loader.load(stream.get());
-        }
-        catch (IOException | InterruptedException | ExecutionException e)
-        {
+        } catch (IOException | InterruptedException | ExecutionException e) {
             bot.getLogger().severe(e);
         }
 
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        setVisible(true);
     }
 }

@@ -20,25 +20,13 @@ import java.util.concurrent.Future;
  * <p>
  * This will show various live stats on the bot
  */
-public class SmartAgilityInfoUI extends GridPane implements Initializable
-{
-    private SmartAgility bot;
+public class SmartAgilityInfoUI extends GridPane implements Initializable {
+    private final SmartAgility bot;
 
     @FXML
     private Label RunTime, CurrentTask, Course, Experience, ExperiencePH, Marks, MarksPH;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        setVisible(true);
-    }
-
-    // An object property is a container of an object, which can be added
-    // listeners to. In this case the property contains our controller class
-    // (this)
-
-    public SmartAgilityInfoUI(SmartAgility bot)
-    {
+    public SmartAgilityInfoUI(SmartAgility bot) {
         this.bot = bot;
 
         // Load the fxml file using RuneMate's resources class.
@@ -54,21 +42,25 @@ public class SmartAgilityInfoUI extends GridPane implements Initializable
         // NOTE: By setting the root to (this) you must change your .fxml to reflect fx:root
         loader.setRoot(this);
 
-        try
-        {
+        try {
             loader.load(stream.get());
-        }
-        catch (IOException | InterruptedException | ExecutionException e)
-        {
+        } catch (IOException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
 
+    // An object property is a container of an object, which can be added
+    // listeners to. In this case the property contains our controller class
+    // (this)
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setVisible(true);
+    }
+
     // This method will update the text that is presented to the end user
-    public void update()
-    {
-        try
-        {
+    public void update() {
+        try {
             Experience.textProperty().set(String.valueOf(bot.guiData.experienceGained));
             ExperiencePH.textProperty().set(String.valueOf(bot.guiData.getExperiencePerHour()));
             Marks.textProperty().set(String.valueOf(bot.guiData.marks));
@@ -77,9 +69,7 @@ public class SmartAgilityInfoUI extends GridPane implements Initializable
             RunTime.textProperty().set(bot.guiData.currentTime.getRuntimeAsString());
             CurrentTask.textProperty().set(bot.guiData.currentTask);
             Course.textProperty().set(bot.guiData.currentArea);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             bot.getLogger().severe(e);
         }
     }

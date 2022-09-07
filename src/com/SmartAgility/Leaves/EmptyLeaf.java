@@ -6,27 +6,25 @@ import com.runemate.game.api.script.framework.tree.LeafTask;
 /**
  * Created by SudoPro on 12/28/2016.
  */
-public class EmptyLeaf extends LeafTask
-{
+public class EmptyLeaf extends LeafTask {
     private String location = "";
 
-    public EmptyLeaf()
-    {
+    public EmptyLeaf() {
 
     }
 
-    public EmptyLeaf(String location)
-    {
+    public EmptyLeaf(String location) {
         this.location = location;
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         // Do nothing
-        if (!location.equals(""))
-        {
-            Environment.getBot().getLogger().debug("Bad empty leaf at location: " + location);
+        if (!location.equals("")) {
+            var bot = Environment.getBot();
+            if (bot != null) {
+                bot.getLogger().debug("Bad empty leaf at location: " + location);
+            }
         }
     }
 }

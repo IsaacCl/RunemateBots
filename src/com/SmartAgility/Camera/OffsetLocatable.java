@@ -7,22 +7,19 @@ import com.runemate.game.api.hybrid.location.Coordinate;
 
 import javax.annotation.Nullable;
 
-public class OffsetLocatable implements Locatable
-{
+public class OffsetLocatable implements Locatable {
     private Area area;
     private Coordinate coord;
 
-    public OffsetLocatable(Locatable object, int xOffset, int yOffset)
-    {
+    public OffsetLocatable(Locatable object, int xOffset, int yOffset) {
         Coordinate origCoordinate = object.getPosition();
-        if(origCoordinate != null) {
+        if (origCoordinate != null) {
             coord = new Coordinate(origCoordinate.getX() + xOffset, origCoordinate.getY() + yOffset, origCoordinate.getPlane());
             area = new Area.Absolute(coord);
         }
     }
 
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return area != null && coord != null;
     }
 

@@ -8,12 +8,12 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class RootBranch extends BranchTask {
 
-    private EmptyLeaf emptyLeaf = new EmptyLeaf();
-    private BreakBranch breakBranch = new BreakBranch();
+    private final EmptyLeaf emptyLeaf = new EmptyLeaf();
+    private final BreakBranch breakBranch = new BreakBranch();
 
-    private SmartAgility bot;
-    public RootBranch()
-    {
+    private final SmartAgility bot;
+
+    public RootBranch() {
         bot = (SmartAgility) Environment.getBot();
     }
 

@@ -6,8 +6,11 @@ import com.runemate.game.api.script.framework.tree.LeafTask;
 
 public class NextObstacle extends LeafTask {
 
-    private SmartAgility bot;
-    public NextObstacle() { bot = (SmartAgility) Environment.getBot(); }
+    private final SmartAgility bot;
+
+    public NextObstacle() {
+        bot = (SmartAgility) Environment.getBot();
+    }
 
     @Override
     public void execute() {

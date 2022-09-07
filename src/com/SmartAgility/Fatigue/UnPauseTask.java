@@ -6,9 +6,8 @@ import java.util.TimerTask;
 
 public class UnPauseTask extends TimerTask {
 
+    private final AbstractBot bot;
     private boolean finished = false;
-
-    private AbstractBot bot;
 
     public UnPauseTask(AbstractBot bot) {
         this.bot = bot;

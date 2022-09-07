@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class InventoryManager {
 
-    SmartAgility bot;
-    private Pattern potionPattern = Pattern.compile("(Super energy|Energy potion|Stamina potion).*");
+    final SmartAgility bot;
+    private final Pattern potionPattern = Pattern.compile("(Super energy|Energy potion|Stamina potion).*");
 
     public InventoryManager(SmartAgility bot) {
         this.bot = bot;
@@ -76,7 +76,10 @@ public class InventoryManager {
                 Execution.delayUntil(() -> !food.isValid(), 200, 1000);
             }
         } else {
-            Environment.getBot().stop("Health low and no food in inventory.");
+            var bot = Environment.getBot();
+            if (bot != null) {
+                bot.stop("Health low and no food in inventory.");
+            }
         }
     }
 
