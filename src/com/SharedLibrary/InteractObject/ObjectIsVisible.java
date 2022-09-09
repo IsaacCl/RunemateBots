@@ -17,7 +17,7 @@ public class ObjectIsVisible extends BranchTask {
 
     @Override
     public TreeTask successTask() {
-        return new InteractObject(object);
+        return new ClickOnObject(object);
     }
 
     @Override

@@ -89,7 +89,7 @@ public class SmartObject {
     public boolean isVisible() {
         var object = getNearestInteractable();
 
-        return object.isVisible();
+        return object != null && object.isVisible();
     }
 
     public boolean atCorrectArea() {
