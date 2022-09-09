@@ -3,6 +3,7 @@ package com.SmartQuests.branches;
 import com.SharedLibrary.CombineItems.CombineItems;
 import com.SharedLibrary.InteractObject.InteractObject;
 import com.SharedLibrary.InteractObject.SmartObject;
+import com.SharedLibrary.SharedLeaves.ClickOnInterface;
 import com.SharedLibrary.SharedLeaves.DoNothing;
 import com.SharedLibrary.SharedLeaves.OpenInterface;
 import com.SharedLibrary.UseItemOnObject.UseItemOnObject;
@@ -49,20 +50,21 @@ public class HasTaskOverChatbox extends BranchTask {
                 new ChatboxTask((text) -> text.startsWith("Firemaking"), new CombineItems("Tinderbox", "Logs")),
                 new ChatboxTask((text) -> text.contains("Click on the gate shown and follow the path") ||
                         text.contains("Follow the path until you get to the door with the yellow arrow") ||
-                        text.startsWith("Cooking") && text.contains("Talk to the chef indicated"), new DoNothing("Talk to master chef")),
+                        text.startsWith("Cooking") && text.contains("Talk to the chef indicated"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3075, 3084, 0), new Coordinate(3077, 3085, 0)), "Master Chef", "Npc"))),
                 new ChatboxTask((text) -> text.startsWith("Cooking") && text.contains("shrimp"), new UseItemOnObject("Raw shrimps", new SmartObject(new Area.Rectangular(new Coordinate(3104, 3095, 0), new Coordinate(3101, 3098, 0)), "Fire", "GameObject"))),
-                new ChatboxTask((text) -> text.startsWith("Making dough"), new DoNothing("Click on flour, then click on water")),
-                new ChatboxTask((text) -> text.contains("You've baked your first loaf of bread") || text.contains("Talk to the quest guide"), new DoNothing("Talk to quest guide")),
+                new ChatboxTask((text) -> text.startsWith("Making dough"), new CombineItems("Pot of flour", "Bucket of water")),
+                new ChatboxTask((text) -> text.startsWith("Cooking dough"), new UseItemOnObject("Bread dough", new SmartObject(new Area.Rectangular(new Coordinate(3075, 3082, 0), new Coordinate(3076, 3082, 0)), "Range", "GameObject"))),
+                new ChatboxTask((text) -> text.contains("You've baked your first loaf of bread") || text.contains("Talk to the quest guide"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3087, 3122, 0), new Coordinate(3085, 3123, 0)), "Quest Guide", "Npc"))),
                 new ChatboxTask((text) -> text.contains("open your quest journal"), new OpenInterface(ControlPanelTab.QUEST_LIST)), //Not sure about this one, fell asleep a bit
-                new ChatboxTask((text) -> text.contains("It's time to enter some caves") || text.contains("Next let's get you a weapon") || text.contains("Speak to the mining instructor"), new DoNothing("Talk to mining instructor")),
-                new ChatboxTask((text) -> text.contains("First up, try mining some tin"), new DoNothing("Mine some nearby tin")),
-                new ChatboxTask((text) -> text.contains("You just need some copper"), new DoNothing("Mine some nearby copper")),
-                new ChatboxTask((text) -> text.contains("You can smelt these into a bronze bar"), new DoNothing("Click on furnace to smelt")),
-                new ChatboxTask((text) -> text.contains("click on the anvil"), new DoNothing("Click on the anvil")),
-                new ChatboxTask((text) -> text.contains("select the dagger to continue"), new DoNothing("select the dagger from anvil menu")),
+                new ChatboxTask((text) -> text.contains("It's time to enter some caves") || text.contains("Next let's get you a weapon") || text.contains("Speak to the mining instructor"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3080, 9502, 0), new Coordinate(3079, 9505, 0)), "Mining Instructor", "Npc"))),
+                new ChatboxTask((text) -> text.contains("First up, try mining some tin"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3078, 9504, 0), new Coordinate(3078, 9503, 0)), 10080, "GameObject"))),
+                new ChatboxTask((text) -> text.contains("You just need some copper"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3087, 9504, 0), new Coordinate(3085, 9504, 0)), 10079, "GameObject"))),
+                new ChatboxTask((text) -> text.contains("You can smelt these into a bronze bar"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3080, 9498, 0), new Coordinate(3078, 9498, 0)), "Furnace", "GameObject"))),
+                new ChatboxTask((text) -> text.contains("click on the anvil"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3082, 9498, 0), new Coordinate(3082, 9500, 0)), "Anvil", "GameObject"))),
+                new ChatboxTask((text) -> text.contains("select the dagger to continue"), new ClickOnInterface(20447241)),
                 new ChatboxTask((text) -> text.contains("Congratulations, you've made your first weapon") || text.contains("Well done, you've made your first kill") || text.contains("Speak to the combat instructor"), new DoNothing("Talk to combat instructor")),
                 new ChatboxTask((text) -> text.contains("Click on the flashing icon of a man"), new OpenInterface(ControlPanelTab.EQUIPMENT)),
-                new ChatboxTask((text) -> text.contains("This is your worn inventory"), new DoNothing("View equipment stats")),
+                new ChatboxTask((text) -> text.contains("This is your worn inventory"), new ClickOnInterface(25362433)),
                 new ChatboxTask((text) -> text.contains("Click on your dagger to equip it"), new DoNothing("Click on your dagger in inventory to equip it")),
                 new ChatboxTask((text) -> text.contains("sword and shield"), new DoNothing("Equip sword and shield")),
                 new ChatboxTask((text) -> text.contains("open the combat interface"), new DoNothing("Open Combat Options")),
