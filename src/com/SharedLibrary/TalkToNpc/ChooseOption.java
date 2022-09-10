@@ -8,13 +8,15 @@ public class ChooseOption extends LeafTask {
     @Override
     public void execute() {
         var chatOptions = ChatDialog.getOptions();
-        var yesOption = chatOptions.stream().filter(option -> option.getText().contains("yes")).findFirst();
+        var bestOption = chatOptions.stream().filter(option -> option.getText().toLowerCase().contains("no, i'm not planning to do that")).findFirst();
         var index = 0;
-        if (yesOption.isPresent()) {
-            index = chatOptions.indexOf(yesOption.get());
+        if (bestOption.isPresent()) {
+            index = chatOptions.indexOf(bestOption.get());
         }
-        if (chatOptions.get(index).select()) {
-            Execution.delay(500, 1000);
+        if (index < chatOptions.size()) {
+            if (chatOptions.get(index).select()) {
+                Execution.delay(500, 1000);
+            }
         }
     }
 }

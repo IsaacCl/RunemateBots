@@ -1,8 +1,8 @@
 <manifest>
     <main-class>com.SmartQuests.SmartQuests</main-class>
-    <name>Smart Quests (alpha)</name>
+    <name>Smart Quests</name>
     <tag-line>A bunch of quests at the click of a button</tag-line>
-    <description>Does some quests, pretty straightforward</description>
+    <description>Currently only does tutorial island, but more to come</description>
     <version>0.0.1</version>
     <internal-id>SmartQuests</internal-id>
     <open-source>false</open-source>
@@ -14,4 +14,7 @@
     <categories>
         <category>QUESTING</category>
     </categories>
+    <resources>
+        <resource>com/SmartQuests/userInterface/SmartQuestsUIView.fxml</resource>
+    </resources>
 </manifest>

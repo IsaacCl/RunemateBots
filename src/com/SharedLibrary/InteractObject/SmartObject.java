@@ -7,6 +7,7 @@ import com.runemate.game.api.hybrid.entities.details.Locatable;
 import com.runemate.game.api.hybrid.local.Camera;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.navigation.Traversal;
+import com.runemate.game.api.hybrid.location.navigation.cognizant.RegionPath;
 import com.runemate.game.api.hybrid.location.navigation.web.Web;
 import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Npcs;
@@ -98,14 +99,23 @@ public class SmartObject {
     }
 
     public boolean walkToObject() {
-        Web web = Traversal.getDefaultWeb();
-        var me = Players.getLocal();
 
+        final RegionPath path = RegionPath.buildTo(locationToLookFor);
+        var me = Players.getLocal();
+        if (path != null && me != null) {
+            Environment.getLogger().info("Walking to " + name);
+            if (path.step(true)) {
+                Execution.delayUntil(() -> me.getAnimationId() != -1, 500, 2000);
+                return true;
+            }
+        }
+
+        Web web = Traversal.getDefaultWeb();
         if (web != null && me != null) {
-            var path = web.getPathBuilder().buildTo(locationToLookFor);
-            if (path != null) {
+            var path2 = web.getPathBuilder().buildTo(locationToLookFor);
+            if (path2 != null) {
                 Environment.getLogger().info("Walking to " + name);
-                if (path.step(true)) {
+                if (path2.step(true)) {
                     Execution.delayUntil(() -> me.getAnimationId() != -1, 500, 2000);
                     return true;
                 }
