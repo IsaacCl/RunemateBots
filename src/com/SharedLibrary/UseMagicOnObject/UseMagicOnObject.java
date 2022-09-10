@@ -1,4 +1,4 @@
-package com.SharedLibrary.UseItemOnObject;
+package com.SharedLibrary.UseMagicOnObject;
 
 import com.SharedLibrary.InteractObject.AtCorrectArea;
 import com.SharedLibrary.InteractObject.SmartObject;

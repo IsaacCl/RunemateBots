@@ -8,8 +8,8 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 
 public class CombineItems extends BranchTask {
 
-    private String item1;
-    private String item2;
+    private final String item1;
+    private final String item2;
 
     public CombineItems(String item1, String item2) {
         this.item1 = item1;
@@ -19,7 +19,7 @@ public class CombineItems extends BranchTask {
     @Override
     public boolean validate() {
         var selectedItem = Inventory.getSelectedItem();
-        return selectedItem != null && selectedItem.getDefinition().getName().equals(item1);
+        return selectedItem != null && selectedItem.getDefinition() != null && selectedItem.getDefinition().getName().equals(item1);
     }
 
     @Override

@@ -25,11 +25,7 @@ public class SmartQuestsUIController implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-
-        goButton.setOnAction(event ->
-        {
-            SmartQuests.started = true;
-        });
+        goButton.setOnAction(event -> SmartQuests.started = true);
     }
 
 }

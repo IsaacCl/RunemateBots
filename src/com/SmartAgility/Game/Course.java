@@ -12,10 +12,10 @@ import java.util.Arrays;
 
 public class Course {
 
+    public final String name;
     final int minLevel;
     private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final AbstractBot bot;
-    String name;
     private CustomBank bank;
 
     Course(String name, int minLevel, Obstacle... obstacles) {

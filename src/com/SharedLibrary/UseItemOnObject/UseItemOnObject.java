@@ -19,7 +19,7 @@ public class UseItemOnObject extends BranchTask {
     @Override
     public boolean validate() {
         var selectedItem = Inventory.getSelectedItem();
-        return selectedItem != null && selectedItem.getDefinition().getName().equals(itemName);
+        return selectedItem != null && selectedItem.getDefinition() != null && selectedItem.getDefinition().getName().equals(itemName);
     }
 
     @Override
