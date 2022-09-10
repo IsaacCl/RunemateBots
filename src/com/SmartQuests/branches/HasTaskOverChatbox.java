@@ -9,7 +9,7 @@ import com.SharedLibrary.SharedLeaves.ClickOnInterface;
 import com.SharedLibrary.SharedLeaves.DoNothing;
 import com.SharedLibrary.SharedLeaves.OpenInterface;
 import com.SharedLibrary.UseItemOnObject.UseItemOnObject;
-import com.SharedLibrary.UseItemOnObject.UseMagicOnObject;
+import com.SharedLibrary.UseMagicOnObject.UseMagicOnObject;
 import com.SmartQuests.utils.ChatboxTask;
 import com.runemate.game.api.hybrid.local.hud.interfaces.InterfaceComponent;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
