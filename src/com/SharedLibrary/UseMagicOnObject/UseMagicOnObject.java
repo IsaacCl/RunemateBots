@@ -1,6 +1,6 @@
 package com.SharedLibrary.UseItemOnObject;
 
-import com.SharedLibrary.InteractObject.InteractObject;
+import com.SharedLibrary.InteractObject.AtCorrectArea;
 import com.SharedLibrary.InteractObject.SmartObject;
 import com.runemate.game.api.osrs.local.hud.interfaces.Magic;
 import com.runemate.game.api.script.framework.tree.BranchTask;
@@ -23,7 +23,7 @@ public class UseMagicOnObject extends BranchTask {
 
     @Override
     public TreeTask successTask() {
-        return new InteractObject(object);
+        return new AtCorrectArea(object);
     }
 
     @Override

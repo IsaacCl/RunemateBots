@@ -1,6 +1,6 @@
 package com.SharedLibrary.UseItemOnObject;
 
-import com.SharedLibrary.InteractObject.InteractObject;
+import com.SharedLibrary.InteractObject.AtCorrectArea;
 import com.SharedLibrary.InteractObject.SmartObject;
 import com.SharedLibrary.SharedLeaves.SelectItem;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
@@ -24,7 +24,7 @@ public class UseItemOnObject extends BranchTask {
 
     @Override
     public TreeTask successTask() {
-        return new InteractObject(object);
+        return new AtCorrectArea(object);
     }
 
     @Override

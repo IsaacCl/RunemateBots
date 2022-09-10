@@ -18,6 +18,6 @@ public class IsEngagedInConversation extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        return new HasTaskOverChatbox();
+        return new CoveredByInterfaces();
     }
 }

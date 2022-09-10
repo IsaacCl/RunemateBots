@@ -14,11 +14,15 @@ import com.runemate.game.api.hybrid.region.Npcs;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.Execution;
 
+import java.util.concurrent.Callable;
+
 public class SmartObject {
     private final Area locationToLookFor;
     private final String type; // NPC or GameObject
     private int id = -1;
     private String name = "";
+
+    private Callable<Boolean> waitCondition = null;
 
     public SmartObject(Area locationToLookFor, int id, String type) {
         this.locationToLookFor = locationToLookFor;
@@ -30,6 +34,13 @@ public class SmartObject {
         this.locationToLookFor = locationToLookFor;
         this.name = name;
         this.type = type;
+    }
+
+    public SmartObject(Area locationToLookFor, String name, String type, Callable<Boolean> waitCondition) {
+        this.locationToLookFor = locationToLookFor;
+        this.name = name;
+        this.type = type;
+        this.waitCondition = waitCondition;
     }
 
     public Interactable getNearestInteractable() {
@@ -74,7 +85,13 @@ public class SmartObject {
         var object = getNearestInteractable();
 
         if (object != null) {
-            return object.click();
+            if (object.click()) {
+                if (waitCondition != null) {
+                    Execution.delayUntil(waitCondition, 500, 1500);
+                } else {
+                    Execution.delay(500, 1000);
+                }
+            }
         }
         return false;
     }
@@ -83,7 +100,7 @@ public class SmartObject {
         var object = getNearestLocatable();
 
         if (object != null) {
-            return Camera.turnTo(object);
+            Camera.turnTo(object);
         }
         return false;
     }

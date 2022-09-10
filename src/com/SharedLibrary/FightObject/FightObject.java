@@ -1,6 +1,6 @@
 package com.SharedLibrary.FightObject;
 
-import com.SharedLibrary.InteractObject.InteractObject;
+import com.SharedLibrary.InteractObject.AtCorrectArea;
 import com.SharedLibrary.InteractObject.SmartObject;
 import com.SharedLibrary.SharedLeaves.DoNothing;
 import com.runemate.game.api.hybrid.region.Players;
@@ -27,6 +27,6 @@ public class FightObject extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        return new InteractObject(object);
+        return new AtCorrectArea(object);
     }
 }

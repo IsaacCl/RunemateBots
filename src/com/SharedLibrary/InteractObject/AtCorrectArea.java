@@ -3,26 +3,26 @@ package com.SharedLibrary.InteractObject;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
-public class InteractObject extends BranchTask {
+public class AtCorrectArea extends BranchTask {
+
     private final SmartObject object;
 
-    public InteractObject(SmartObject object) {
+    public AtCorrectArea(SmartObject object) {
         this.object = object;
     }
 
     @Override
     public boolean validate() {
-        return object.isVisible();
+        return object.atCorrectArea();
     }
 
     @Override
     public TreeTask successTask() {
-        return new ClickOnObject(object);
+        return new ObjectIsVisible(object);
     }
 
     @Override
     public TreeTask failureTask() {
-        return new AtCorrectArea(object);
+        return new WalkToObject(object);
     }
 }
-
