@@ -14,7 +14,7 @@ public class AlchItem extends LeafTask {
     public void execute() {
         Environment.getLogger().info("Alching item");
 
-        var spell = MTABot.alchemySpell.equals("high alchemy") ? Magic.HIGH_LEVEL_ALCHEMY : Magic.LOW_LEVEL_ALCHEMY;
+        var spell = MTABot.alchemySpell.equals("High alchemy") ? Magic.HIGH_LEVEL_ALCHEMY : Magic.LOW_LEVEL_ALCHEMY;
 
         if (spell.activate()) {
             Execution.delayUntil(() -> ControlPanelTab.getOpened() == ControlPanelTab.INVENTORY, 250, 1000);

@@ -27,15 +27,15 @@ public class MTABotUIController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        minigameSelector.getItems().add("alchemist");
-        minigameSelector.getItems().add("enchantment");
-        minigameSelector.getItems().add("telekinetic");
-        minigameSelector.getItems().add("graveyard");
-        minigameSelector.setValue("alchemist");
+        minigameSelector.getItems().add("Alchemists' Playground");
+        minigameSelector.getItems().add("Enchanting Chamber");
+        minigameSelector.getItems().add("Telekinetic Theatre");
+        minigameSelector.getItems().add("Creature Graveyard");
+        minigameSelector.setValue("Alchemists' Playground");
 
-        alchemySelector.getItems().add("high alchemy");
-        alchemySelector.getItems().add("low alchemy");
-        alchemySelector.setValue("high alchemy");
+        alchemySelector.getItems().add("High alchemy");
+        alchemySelector.getItems().add("Low alchemy");
+        alchemySelector.setValue("High alchemy");
 
         enchantSelector.getItems().add("Enchant level 1");
         enchantSelector.getItems().add("Enchant level 2");

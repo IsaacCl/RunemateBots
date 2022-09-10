@@ -39,11 +39,12 @@ public class ClickOnInterface extends LeafTask {
         }
 
         if (interfaceComponent != null) {
-            interfaceComponent.click();
-            if (waitCondition == null) {
-                Execution.delay(500, 1000);
-            } else {
-                Execution.delayUntil(waitCondition, 500, 1500);
+            if (interfaceComponent.click()) {
+                if (waitCondition == null) {
+                    Execution.delay(500, 1000);
+                } else {
+                    Execution.delayUntil(waitCondition, 500, 3000);
+                }
             }
         }
     }

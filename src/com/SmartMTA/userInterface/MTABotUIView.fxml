@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="460.0" prefWidth="600.0" style="-fx-background-color: #323232;"
-            xmlns="http://javafx.com/javafx/18">
-    <Label layoutX="136.0" layoutY="36.0" text="Smart MTA (alpha)" textFill="WHITE">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="600.0" style="-fx-background-color: #323232;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <Label layoutX="204.0" layoutY="39.0" text="Smart MTA" textFill="WHITE">
         <font>
-            <Font name="Cambria" size="40.0"/>
+            <Font name="Cambria" size="40.0" />
         </font>
     </Label>
-    <ChoiceBox fx:id="enchantSelector" layoutX="225.0" layoutY="114.0" prefWidth="150.0"/>
-    <ChoiceBox fx:id="alchemySelector" layoutX="225.0" layoutY="166.0" prefWidth="150.0"/>
-    <ChoiceBox fx:id="graveyardSelector" layoutX="225.0" layoutY="218.0" prefWidth="150.0"/>
-    <ChoiceBox fx:id="minigameSelector" layoutX="227.0" layoutY="273.0" prefWidth="150.0"/>
-    <Button fx:id="goButton" layoutX="193.0" layoutY="332.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="219.0"
-            text="Go">
+    <ChoiceBox fx:id="enchantSelector" layoutX="214.0" layoutY="114.0" prefHeight="25.0" prefWidth="173.0" />
+    <ChoiceBox fx:id="alchemySelector" layoutX="215.0" layoutY="166.0" prefHeight="25.0" prefWidth="173.0" />
+    <ChoiceBox fx:id="graveyardSelector" layoutX="215.0" layoutY="218.0" prefHeight="25.0" prefWidth="173.0" />
+    <ChoiceBox fx:id="minigameSelector" layoutX="215.0" layoutY="273.0" prefHeight="25.0" prefWidth="173.0" />
+    <Button fx:id="goButton" layoutX="193.0" layoutY="332.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="219.0" text="Go">
         <font>
-            <Font size="36.0"/>
+            <Font size="36.0" />
         </font>
     </Button>
 </AnchorPane>

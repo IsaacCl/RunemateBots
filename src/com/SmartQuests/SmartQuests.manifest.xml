@@ -14,6 +14,9 @@
     <categories>
         <category>QUESTING</category>
     </categories>
+    <tags>
+        <tag>Tutorial Island</tag>
+    </tags>
     <resources>
         <resource>com/SmartQuests/userInterface/SmartQuestsUIView.fxml</resource>
     </resources>

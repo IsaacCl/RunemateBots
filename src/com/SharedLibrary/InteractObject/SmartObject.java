@@ -14,15 +14,13 @@ import com.runemate.game.api.hybrid.region.Npcs;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.Execution;
 
-import java.util.concurrent.Callable;
-
 public class SmartObject {
     private final Area locationToLookFor;
     private final String type; // NPC or GameObject
     private int id = -1;
     private String name = "";
 
-    private Callable<Boolean> waitCondition = null;
+    private WaitingCondition waitCondition = null;
 
     public SmartObject(Area locationToLookFor, int id, String type) {
         this.locationToLookFor = locationToLookFor;
@@ -36,7 +34,7 @@ public class SmartObject {
         this.type = type;
     }
 
-    public SmartObject(Area locationToLookFor, String name, String type, Callable<Boolean> waitCondition) {
+    public SmartObject(Area locationToLookFor, String name, String type, WaitingCondition waitCondition) {
         this.locationToLookFor = locationToLookFor;
         this.name = name;
         this.type = type;
@@ -87,7 +85,7 @@ public class SmartObject {
         if (object != null) {
             if (object.click()) {
                 if (waitCondition != null) {
-                    Execution.delayUntil(waitCondition, 500, 1500);
+                    waitCondition.delay();
                 } else {
                     Execution.delay(500, 1000);
                 }
@@ -145,5 +143,11 @@ public class SmartObject {
 
     public boolean isFighting(Player local) {
         return local != null && local.getTarget() != null && local.getTarget().getName() != null && local.getTarget().getName().equals(name);
+    }
+
+    public boolean isNextToPlayer() {
+        var objectLocation = getNearestLocatable();
+        var player = Players.getLocal();
+        return objectLocation != null && player != null && objectLocation.distanceTo(player) <= 1;
     }
 }

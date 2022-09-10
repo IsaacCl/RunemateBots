@@ -1,9 +1,9 @@
 <manifest>
     <main-class>com.SmartMTA.MTABot</main-class>
-    <name>Smart MTA (alpha)</name>
+    <name>Smart MTA</name>
     <tag-line>Bones to peaches at the click of a button</tag-line>
-    <description>Does all four minigames at the mage training arena. Currently, this bot is in alpha.</description>
-    <version>0.0.1</version>
+    <description>Does all four minigames at the mage training arena.</description>
+    <version>0.0.2</version>
     <internal-id>SmartMTA</internal-id>
     <open-source>false</open-source>
     <hidden>false</hidden>
@@ -14,6 +14,11 @@
     <categories>
         <category>MAGIC</category>
     </categories>
+    <tags>
+        <tag>Mage training arena</tag>
+        <tag>Minigame</tag>
+        <tag>Mini game</tag>
+    </tags>
     <resources>
         <resource>com/SmartMTA/userInterface/MTABotUIView.fxml</resource>
     </resources>

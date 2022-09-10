@@ -12,7 +12,7 @@ public class InteractObject extends BranchTask {
 
     @Override
     public boolean validate() {
-        return object.isVisible();
+        return object.isVisible() && object.isNextToPlayer();
     }
 
     @Override

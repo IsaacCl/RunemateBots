@@ -23,16 +23,16 @@ public class ShouldStartBot extends BranchTask {
         BranchTask lobby = null;
 
         switch (MTABot.minigame) {
-            case "graveyard":
+            case "Creature Graveyard":
                 lobby = new IsInLobbyGraveyard();
                 break;
-            case "alchemist":
+            case "Alchemists' Playground":
                 lobby = new IsInLobbyAlchemist();
                 break;
-            case "enchantment":
+            case "Enchanting Chamber":
                 lobby = new IsInLobbyEnchantment();
                 break;
-            case "telekinetic":
+            case "Telekinetic Theatre":
                 lobby = new IsInLobbyTelekinetic();
                 break;
         }

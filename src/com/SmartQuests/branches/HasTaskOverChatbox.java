@@ -3,6 +3,7 @@ package com.SmartQuests.branches;
 import com.SharedLibrary.CombineItems.CombineItems;
 import com.SharedLibrary.InteractObject.InteractObject;
 import com.SharedLibrary.InteractObject.SmartObject;
+import com.SharedLibrary.InteractObject.WaitingCondition;
 import com.SharedLibrary.SharedLeaves.ClickItem;
 import com.SharedLibrary.SharedLeaves.ClickOnInterface;
 import com.SharedLibrary.SharedLeaves.DoNothing;
@@ -63,7 +64,7 @@ public class HasTaskOverChatbox extends BranchTask {
                 new ChatboxTask((text) -> text.contains("First up, try mining some tin"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3078, 9504, 0), new Coordinate(3078, 9503, 0)), 10080, "GameObject"))),
                 new ChatboxTask((text) -> text.contains("you just need some copper"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3087, 9504, 0), new Coordinate(3085, 9504, 0)), 10079, "GameObject"))),
                 new ChatboxTask((text) -> text.contains("You can smelt these into a bronze bar"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3080, 9498, 0), new Coordinate(3078, 9498, 0)), "Furnace", "GameObject"))),
-                new ChatboxTask((text) -> text.contains("click on the anvil") || (text.contains("select the dagger to continue") && Interfaces.newQuery().textContains("Dagger").results().size() == 0), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3082, 9498, 0), new Coordinate(3082, 9500, 0)), "Anvil", "GameObject", () -> Interfaces.newQuery().textContains("Dagger").results().size() > 0))),
+                new ChatboxTask((text) -> text.contains("click on the anvil") || (text.contains("select the dagger to continue") && Interfaces.newQuery().textContains("Dagger").results().size() == 0), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3082, 9498, 0), new Coordinate(3082, 9500, 0)), "Anvil", "GameObject", new WaitingCondition(() -> Interfaces.newQuery().textContains("Dagger").results().size() > 0, 1000, 2000)))),
                 new ChatboxTask((text) -> text.contains("select the dagger to continue"), new ClickOnInterface("Dagger", () -> Inventory.contains("Bronze dagger"))),
                 new ChatboxTask((text) -> text.contains("Congratulations, you've made your first weapon") || text.contains("melee and ranged combat") || text.contains("Well done, you've made your first kill") || text.contains("Speak to the combat instructor"), new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3104, 9509, 0), new Coordinate(3107, 9508, 0)), "Combat Instructor", "Npc"))),
                 new ChatboxTask((text) -> text.contains("Click on the flashing icon of a man") || (text.contains("This is your worn inventory") && Interfaces.newQuery().ids(25362433).results().size() == 0), new OpenInterface(ControlPanelTab.EQUIPMENT)),
