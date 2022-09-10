@@ -1,6 +1,7 @@
 package com.SharedLibrary.InteractObject;
 
 import com.runemate.game.api.hybrid.Environment;
+import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.entities.details.Interactable;
 import com.runemate.game.api.hybrid.entities.details.Locatable;
 import com.runemate.game.api.hybrid.local.Camera;
@@ -113,5 +114,9 @@ public class SmartObject {
             }
         }
         return false;
+    }
+
+    public boolean isFighting(Player local) {
+        return local != null && local.getTarget() != null && local.getTarget().getName() != null && local.getTarget().getName().equals(name);
     }
 }
