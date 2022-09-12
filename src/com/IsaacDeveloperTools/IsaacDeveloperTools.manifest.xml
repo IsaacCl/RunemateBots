@@ -1,0 +1,20 @@
+<manifest>
+    <main-class>com.IsaacDeveloperTools.IsaacDeveloperTools</main-class>
+    <name>Isaac Developer Tools</name>
+    <tag-line>Developer tools</tag-line>
+    <description>Just for Isaac</description>
+    <version>0.0.1</version>
+    <internal-id>IsaacDeveloperTools</internal-id>
+    <open-source>false</open-source>
+    <hidden>false</hidden>
+    <access>private</access>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>QUESTING</category>
+    </categories>
+    <resources>
+        <resource>com/IsaacDeveloperTools/userInterface/IsaacDeveloperToolsUIView.fxml</resource>
+    </resources>
+</manifest>

@@ -1,4 +1,4 @@
-package com.SmartQuests.branches;
+package com.SmartQuests.branches.tutorialIsland;
 
 import com.SharedLibrary.CombineItems.CombineItems;
 import com.SharedLibrary.InteractObject.InteractObject;

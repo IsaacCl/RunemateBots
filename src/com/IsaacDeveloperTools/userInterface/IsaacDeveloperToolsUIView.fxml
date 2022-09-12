@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="460.0" prefWidth="600.0" style="-fx-background-color: #323232;"
+            xmlns="http://javafx.com/javafx/18">
+    <Label layoutX="159.0" layoutY="38.0" prefHeight="49.0" prefWidth="296.0" text="Developer tools" textFill="WHITE">
+        <font>
+            <Font name="Cambria" size="40.0"/>
+        </font>
+    </Label>
+    <Button fx:id="setCoordinate1" layoutX="85.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="137.0" text="Set coordinate 1"/>
+    <Button fx:id="setCoordinate2" layoutX="86.0" layoutY="174.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="137.0"
+            text="Set coordinate 2"/>
+    <Button fx:id="setObjectName" layoutX="85.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="137.0"
+            text="Set object name"/>
+    <TextField fx:id="coordinate1" layoutX="287.0" layoutY="119.0" prefHeight="25.0" prefWidth="241.0"/>
+    <TextField fx:id="coordinate2" layoutX="288.0" layoutY="174.0" prefHeight="25.0" prefWidth="241.0"/>
+    <TextField fx:id="objectName" layoutX="287.0" layoutY="230.0" prefHeight="25.0" prefWidth="241.0"/>
+    <TextArea fx:id="codeOutput" layoutX="85.0" layoutY="286.0" prefHeight="88.0" prefWidth="445.0"/>
+
+</AnchorPane>

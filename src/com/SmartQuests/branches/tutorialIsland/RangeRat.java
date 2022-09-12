@@ -1,4 +1,4 @@
-package com.SmartQuests.branches;
+package com.SmartQuests.branches.tutorialIsland;
 
 import com.SharedLibrary.FightObject.FightObject;
 import com.SharedLibrary.InteractObject.SmartObject;

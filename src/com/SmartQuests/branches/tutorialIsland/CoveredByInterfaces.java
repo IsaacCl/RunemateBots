@@ -1,4 +1,4 @@
-package com.SmartQuests.branches;
+package com.SmartQuests.branches.tutorialIsland;
 
 import com.SharedLibrary.SharedLeaves.ClickOnInterface;
 import com.runemate.game.api.hybrid.Environment;

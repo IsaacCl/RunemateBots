@@ -1,4 +1,4 @@
-package com.SmartQuests.branches;
+package com.SmartQuests.branches.tutorialIsland;
 
 import com.SharedLibrary.TalkToNpc.TalkToNpc;
 import com.runemate.game.api.hybrid.local.hud.interfaces.ChatDialog;

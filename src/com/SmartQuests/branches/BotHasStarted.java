@@ -2,6 +2,7 @@ package com.SmartQuests.branches;
 
 import com.SharedLibrary.SharedLeaves.DoNothing;
 import com.SmartQuests.SmartQuests;
+import com.SmartQuests.branches.tutorialIsland.IsEngagedInConversation;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
