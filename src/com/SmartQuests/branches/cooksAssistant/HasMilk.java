@@ -2,6 +2,7 @@ package com.SmartQuests.branches.cooksAssistant;
 
 import com.SharedLibrary.InteractObject.InteractObject;
 import com.SharedLibrary.InteractObject.SmartObject;
+import com.SharedLibrary.InteractObject.WaitingCondition;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.Coordinate;
@@ -21,6 +22,6 @@ public class HasMilk extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3171, 3319, 0), new Coordinate(3174, 3317, 0)), "Dairy cow", "GameObject"));
+        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3171, 3317, 0), new Coordinate(3171, 3318, 0)), "Dairy cow", "GameObject", new WaitingCondition(() -> Inventory.contains("Bucket of milk"), 1000, 4000)));
     }
 }

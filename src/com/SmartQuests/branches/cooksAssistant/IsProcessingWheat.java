@@ -16,11 +16,11 @@ public class IsProcessingWheat extends BranchTask {
 
     @Override
     public TreeTask successTask() {
-        return new HasOperatedControls();
+        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3167, 3305, 0), new Coordinate(3166, 3305, 0)), "Flour bin", "GameObject"));
     }
 
     @Override
     public TreeTask failureTask() {
-        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3162, 3293, 0), new Coordinate(3159, 3295, 0)), "Wheat", "GameObject"));
+        return new HasOperatedControls();
     }
 }

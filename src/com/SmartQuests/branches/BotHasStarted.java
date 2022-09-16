@@ -2,7 +2,7 @@ package com.SmartQuests.branches;
 
 import com.SharedLibrary.SharedLeaves.DoNothing;
 import com.SmartQuests.SmartQuests;
-import com.SmartQuests.branches.tutorialIsland.IsEngagedInConversation;
+import com.SmartQuests.branches.cooksAssistant.CooksAssistant;
 import com.runemate.game.api.script.framework.tree.BranchTask;
 import com.runemate.game.api.script.framework.tree.TreeTask;
 
@@ -14,7 +14,7 @@ public class BotHasStarted extends BranchTask {
 
     @Override
     public TreeTask successTask() {
-        return new IsEngagedInConversation();
+        return new CooksAssistant();
     }
 
     @Override

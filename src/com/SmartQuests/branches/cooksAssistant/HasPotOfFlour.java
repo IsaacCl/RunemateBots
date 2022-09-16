@@ -23,6 +23,6 @@ public class HasPotOfFlour extends BranchTask {
 
     @Override
     public TreeTask failureTask() {
-        return new HasWheat();
+        return new ShouldPutWheatInHopper();
     }
 }

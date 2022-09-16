@@ -10,6 +10,7 @@ import com.runemate.game.api.hybrid.location.navigation.Traversal;
 import com.runemate.game.api.hybrid.location.navigation.cognizant.RegionPath;
 import com.runemate.game.api.hybrid.location.navigation.web.Web;
 import com.runemate.game.api.hybrid.region.GameObjects;
+import com.runemate.game.api.hybrid.region.GroundItems;
 import com.runemate.game.api.hybrid.region.Npcs;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.Execution;
@@ -55,6 +56,12 @@ public class SmartObject {
                 }
                 return Npcs.newQuery().names(name).results().nearest();
             }
+            case "GroundItem": {
+                if (id != -1) {
+                    return GroundItems.newQuery().ids(id).results().nearest();
+                }
+                return GroundItems.newQuery().names(name).results().nearest();
+            }
             default:
                 throw new RuntimeException("This type of smart object doesn't exist");
         }
@@ -73,6 +80,12 @@ public class SmartObject {
                     return Npcs.newQuery().ids(id).results().nearest();
                 }
                 return Npcs.newQuery().names(name).results().nearest();
+            }
+            case "GroundItem": {
+                if (id != -1) {
+                    return GroundItems.newQuery().ids(id).results().nearest();
+                }
+                return GroundItems.newQuery().names(name).results().nearest();
             }
             default:
                 throw new RuntimeException("This type of smart object doesn't exist");

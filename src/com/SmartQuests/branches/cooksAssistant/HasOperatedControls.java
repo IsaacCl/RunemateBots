@@ -11,12 +11,12 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 public class HasOperatedControls extends BranchTask {
     @Override
     public boolean validate() {
-        return Chatbox.newQuery().textContains("You put the grain in the hopper.").results().size() > 0;
+        return Chatbox.newQuery().textContains("You put the grain in the hopper.").results().size() == 0 && Chatbox.newQuery().textContains("There is already grain in the hopper.").results().size() == 0;
     }
 
     @Override
     public TreeTask successTask() {
-        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3167, 3305, 0), new Coordinate(3166, 3305, 0)), "Flour bin", "GameObject"));
+        return new InteractObject(new SmartObject(new Area.Rectangular(new Coordinate(3162, 3293, 0), new Coordinate(3159, 3295, 0)), "Wheat", "GameObject"));
     }
 
     @Override

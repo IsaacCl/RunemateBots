@@ -12,7 +12,8 @@ import com.runemate.game.api.script.framework.tree.TreeTask;
 public class CooksAssistant extends BranchTask {
     @Override
     public boolean validate() {
-        return Quests.get("Cook's assistant").getStatus() == Quest.Status.IN_PROGRESS;
+
+        return Quests.get("Cook's Assistant").getStatus() == Quest.Status.IN_PROGRESS;
     }
 
     @Override
